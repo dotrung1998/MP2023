@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame implements ActionListener {
-
+// Comment from Trung
     private JTextField xField, yField;
     private JButton addButton, clearButton, calculateButton;
     private JTextArea pointList, result;

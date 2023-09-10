@@ -5,7 +5,6 @@ import plotter.LineStyle;
 import plotter.Plotter;
 
 import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -32,6 +31,14 @@ public class LinearRegression {
 
     public double getYWert(int i){
         return yWert.get(i);
+    }
+
+    public double getYWertBackup(int i){
+        return yWertBackup.get(i);
+    }
+
+    public Double setYWert(int i, double neuWert){
+        return yWert.set(i,neuWert);
     }
 
  // Anzahl der Punkte
@@ -66,7 +73,7 @@ public class LinearRegression {
         double xMittelwert = xWertSumme / anzahlPunkte;
         double yMittelwert = yWertSumme / anzahlPunkte;
         this.steigung = (anzahlPunkte * xySumme - xWertSumme * yWertSumme) / (anzahlPunkte * xWertQuadratSumme - xWertSumme * xWertSumme);
-        this.steigung = yMittelwert - steigung * xMittelwert;
+        this.yAchsenabschnitt = yMittelwert - steigung * xMittelwert;
     }
 
     public double getSteigung() {
@@ -85,15 +92,15 @@ public class LinearRegression {
         // SQT: Summe der Quadrate der Totalabstände, misst die Gesamtvariation der abhängigen Variable (Y) in den Daten.
         // SQR: Summe der quadrierten Regressionsabweichungen, misst die durch das lineare Regressionsmodell erklärte Variation der abhängigen Variable (Y).
         for (int i = 0; i < anzahlPunkte; i++) {
-            double predictedY = this.getSteigung() * xWert.get(i) + this.getyAchsenabschnitt();
-            SQT += (yWert.get(i) - predictedY) * (yWert.get(i) - predictedY);
+            double schaetzWert = this.getSteigung() * xWert.get(i) + this.getyAchsenabschnitt();
+            SQR += (yWert.get(i) - schaetzWert) * (yWert.get(i) - schaetzWert);
             yWertSumme += yWert.get(i);
         }
         double yMittelwert = yWertSumme / anzahlPunkte;
         for (int i = 0; i < anzahlPunkte; i++) {
-            SQR += (yWert.get(i) - yMittelwert) * (yWert.get(i) - yMittelwert);
+            SQT += (yWert.get(i) - yMittelwert) * (yWert.get(i) - yMittelwert);
         }
-        double rSquared = 1.0 - SQT / SQR;
+        double rSquared = 1.0 - SQR / SQT;
         return rSquared;
     }
 
@@ -165,9 +172,9 @@ public class LinearRegression {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
-    public void addNoisetoY(double standardabweichung) {
+    public void YRandomErstellen(double standardabweichung) {
         randomWert = new Random();
 
         for (int i = 0; i< yWert.size(); i++){
@@ -176,7 +183,7 @@ public class LinearRegression {
         }
     }
 
-    public double[] MCL_RSquared(double standardabweichung,int numIterations) {
+    /*public double[] MCL_RSquared(double standardabweichung,int numIterations) {
         double sumRSquared = 0.0;
         double sumSlope = 0.0;
         for (int i = 0; i<numIterations;i++){
@@ -190,13 +197,13 @@ public class LinearRegression {
         double averageSlope = sumSlope/numIterations;
         double[] ergebnis = {averageRSquared, averageSlope};
         return ergebnis;
-    }
+    }*/
 
-    public double[] MCL_Steigung_Konfidenzintervall(double standardabweichung, int numIterations){
+    /*public double[] MCL_Steigung_Konfidenzintervall(double standardabweichung, int numIterations){
         double sumSlope = 0.0;
         double sumIntercept = 0.0;
         for (int i = 0; i<numIterations;i++){
-            addNoisetoY(standardabweichung);
+            YRandomErstellen(standardabweichung);
             KoeffizientenBerechnung();
             regressiongeradeZeichnen();
             sumSlope += steigung;
@@ -233,7 +240,7 @@ public class LinearRegression {
             sum += Math.pow(data.get(i) - mean, 2);
         }
         return sum;
-    }
+    }*/
 
 }
 

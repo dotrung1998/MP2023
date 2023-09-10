@@ -7,8 +7,6 @@ import java.io.IOException;
 
 public class Importdaten {
 
-    private LinearRegression linearRegression;
-
     private String pfad;
 
     private int spalte1;
@@ -21,7 +19,7 @@ public class Importdaten {
         this.spalte2 = spalte2;
     }
 
-    public void AddDatenAusCSV() {
+    public void AddDatenAusCSV(LinearRegression linearRegression) {
         String zeile = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(pfad));

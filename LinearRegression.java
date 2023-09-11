@@ -104,6 +104,88 @@ public class LinearRegression {
         return rSquared;
     }
 
+ ////////////////////// Anfang: Spearmann ////////////////////////////
+
+    public double calculateRankCorrelation() {
+        int n = xValues.size();
+
+        // Erstellen Sie Ranglisten für x und y
+        List<Double> xRank = calculateRank(xValues);
+        List<Double> yRank = calculateRank(yValues);
+
+        // Berechnen Sie die Differenzen zwischen den Ranglisten
+        List<Double> rankDifferences = new ArrayList<Double>();
+        for (int i = 0; i < n; i++) {
+            rankDifferences.add(xRank.get(i) - yRank.get(i));
+        }
+
+        // Berechnen Sie den Rangkorrelationskoeffizienten
+        double sumRankDifferencesSquared = 0.0;
+        for (Double diff : rankDifferences) {
+            sumRankDifferencesSquared += Math.pow(diff, 2);
+        }
+
+        double rankCorrelation = 1 - (6 * sumRankDifferencesSquared) / (n * (n * n - 1));
+        return rankCorrelation;
+    }
+
+    ////
+    private List<Double> calculateRank(ArrayList<Double> values) {
+        List<Double> sortedValues = new ArrayList<Double>(values);
+        Collections.sort(sortedValues);
+
+        List<Double> rank = new ArrayList<Double>();
+        for (Double value : values) {
+            int index = sortedValues.indexOf(value);
+            rank.add((double) (index + 1));
+        }
+        return rank;
+    }
+
+    ////////////////////// Ende: Spearmann ////////////////////////////
+
+
+    ////////////////////// Anfang: Pearson Korrelation //////////////////////
+
+        // Fügen Sie die Methode calculatePearsonCorrelation() hinzu
+        public double calculatePearsonCorrelation() {
+            int n = xValues.size();
+            double sumX = 0.0, sumY = 0.0, sumXX = 0.0, sumYY = 0.0, sumXY = 0.0;
+
+            for (int i = 0; i < n; i++) {
+                double x = xValues.get(i);
+                double y = yValues.get(i);
+                sumX += x;
+                sumY += y;
+                sumXX += x * x;
+                sumYY += y * y;
+                sumXY += x * y;
+            }
+
+            double meanX = sumX / n;
+            double meanY = sumY / n;
+
+            double numerator = 0.0, denominatorX = 0.0, denominatorY = 0.0;
+
+            for (int i = 0; i < n; i++) {
+                double x = xValues.get(i);
+                double y = yValues.get(i);
+                numerator += (x - meanX) * (y - meanY);
+                denominatorX += Math.pow(x - meanX, 2);
+                denominatorY += Math.pow(y - meanY, 2);
+            }
+
+            if (denominatorX == 0 || denominatorY == 0) {
+                return 0.0; // Vermeiden Sie eine Division durch Null
+            }
+
+            return numerator / (Math.sqrt(denominatorX) * Math.sqrt(denominatorY));
+        }
+        // Andere vorhandene Methoden und Variablen
+
+
+    ////////////////////// Ende: Pearson Korrelation //////////////////////
+    
     public void regressiongeradeZeichnen() {
         Graphic graph = new Graphic("lineare Regression");
         Plotter plotter = graph.getPlotter();

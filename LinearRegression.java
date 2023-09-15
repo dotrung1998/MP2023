@@ -5,7 +5,9 @@ import plotter.LineStyle;
 import plotter.Plotter;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class LinearRegression {
@@ -107,14 +109,14 @@ public class LinearRegression {
  ////////////////////// Anfang: Spearmann ////////////////////////////
 
     public double calculateRankCorrelation() {
-        int n = xValues.size();
+        int n = xWert.size();
 
         // Erstellen Sie Ranglisten für x und y
-        List<Double> xRank = calculateRank(xValues);
-        List<Double> yRank = calculateRank(yValues);
+        ArrayList<Double> xRank = calculateRank(xWert);
+        ArrayList<Double> yRank = calculateRank(yWert);
 
         // Berechnen Sie die Differenzen zwischen den Ranglisten
-        List<Double> rankDifferences = new ArrayList<Double>();
+        ArrayList<Double> rankDifferences = new ArrayList<Double>();
         for (int i = 0; i < n; i++) {
             rankDifferences.add(xRank.get(i) - yRank.get(i));
         }
@@ -130,11 +132,11 @@ public class LinearRegression {
     }
 
     ////
-    private List<Double> calculateRank(ArrayList<Double> values) {
-        List<Double> sortedValues = new ArrayList<Double>(values);
+    private ArrayList<Double> calculateRank(ArrayList<Double> values) {
+        ArrayList<Double> sortedValues = new ArrayList<Double>(values);
         Collections.sort(sortedValues);
 
-        List<Double> rank = new ArrayList<Double>();
+        ArrayList<Double> rank = new ArrayList<Double>();
         for (Double value : values) {
             int index = sortedValues.indexOf(value);
             rank.add((double) (index + 1));
@@ -148,13 +150,13 @@ public class LinearRegression {
     ////////////////////// Anfang: Pearson Korrelation //////////////////////
 
         // Fügen Sie die Methode calculatePearsonCorrelation() hinzu
-        public double calculatePearsonCorrelation() {
-            int n = xValues.size();
+       /* public double calculatePearsonCorrelation() {
+            int n = xWert.size();
             double sumX = 0.0, sumY = 0.0, sumXX = 0.0, sumYY = 0.0, sumXY = 0.0;
 
             for (int i = 0; i < n; i++) {
-                double x = xValues.get(i);
-                double y = yValues.get(i);
+                double x = xWert.get(i);
+                double y = yWert.get(i);
                 sumX += x;
                 sumY += y;
                 sumXX += x * x;
@@ -180,7 +182,7 @@ public class LinearRegression {
             }
 
             return numerator / (Math.sqrt(denominatorX) * Math.sqrt(denominatorY));
-        }
+        } */
         // Andere vorhandene Methoden und Variablen
 
 

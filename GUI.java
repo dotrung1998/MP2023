@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,18 +8,15 @@ import java.awt.event.ActionListener;
 public class GUI extends JFrame implements ActionListener {
 
     private JTextField xFeld, yFeld;
-    private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, MonteCarloButton, YRandomButton;
-    private JTextArea punktenListe, ergebnis;
+    private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, AnalyseButton, MCLWürfelButton;
+    private JTextArea punktenListe, ergebnisBereich;
     private LinearRegression lr;
-
     private Importdaten importdaten;
-    private MonteCarloSimulation mcl;
     private JFrame rahmen;
 
     public GUI() {
 
         lr = new LinearRegression();
-        mcl = new MonteCarloSimulation();
 
         rahmen = new JFrame();
         rahmen.setTitle("Lineare Regression");
@@ -41,16 +38,14 @@ public class GUI extends JFrame implements ActionListener {
         berechnenButton = new JButton("Berechnen");
         berechnenButton.setBackground(Color.PINK);
         addDatenAusCSVButton = new JButton("CSV Daten");
-        YRandomButton =new JButton("Random Y Werte");
-        MonteCarloButton = new JButton("Monte Carlo Simulation");
-
+        AnalyseButton =new JButton("Analysieren");
+        MCLWürfelButton = new JButton("Monte Carlo Simulation");
 
         punktenListe = new JTextArea(15, 20);
         punktenListe.setEditable(false);
         punktenListe.setAlignmentX(10);
         JScrollPane scrollPane1 = new JScrollPane(punktenListe);
-        ergebnis = new JTextArea(10, 20);
-        ergebnis.setEditable(false);
+        ergebnisBereich = new JTextArea(10, 20);
 
         JPanel inputPanel = new JPanel(new GridLayout(2, 2));
         inputPanel.add(xLabel);
@@ -63,13 +58,13 @@ public class GUI extends JFrame implements ActionListener {
         buttonPanel.add(loschenButton);
         buttonPanel.add(berechnenButton);
         buttonPanel.add(addDatenAusCSVButton);
-        buttonPanel.add(YRandomButton);
-        buttonPanel.add(MonteCarloButton);
+        buttonPanel.add(AnalyseButton);
+        buttonPanel.add(MCLWürfelButton);
 
 
         JPanel outputPanel = new JPanel(new GridLayout(2, 1));
         outputPanel.add(scrollPane1);
-        outputPanel.add(ergebnis);
+        outputPanel.add(ergebnisBereich);
 
         inputPanel.setPreferredSize(new Dimension(80,80));
         buttonPanel.setPreferredSize(new Dimension(100,100));
@@ -85,8 +80,8 @@ public class GUI extends JFrame implements ActionListener {
         loschenButton.addActionListener(this);
         berechnenButton.addActionListener(this);
         addDatenAusCSVButton.addActionListener(this);
-        YRandomButton.addActionListener(this);
-        MonteCarloButton.addActionListener(this);
+        AnalyseButton.addActionListener(this);
+        MCLWürfelButton.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -100,37 +95,43 @@ public class GUI extends JFrame implements ActionListener {
             importdaten = new Importdaten(pfad.replace("\\", "/"), spalte1, spalte2);
             importdaten.AddDatenAusCSV(lr);
 
-
-            //lr.AddDatenAusCSV(path.replace("\\", "/"),colNum1,colNum2);
-
             for (int i = 0; i<lr.getAnzahlderPunkte(); i++){
                 punktenListe.append(lr.getXWert(i) + ", " + lr.getYWert(i) + "\n");
             }
-        } else if (event.getSource() == YRandomButton) {
-            String inputWert = JOptionPane.showInputDialog("Geben Sie bitte die Standardabweichung ein:");
-            double standardabweichung = Double.parseDouble(inputWert);
-            mcl.YRandomErstellen(lr,standardabweichung);
+        } else if (event.getSource() == AnalyseButton) {
+            String[] optionen = { "RSquared", "Rangkorrelation", "MonteCarloSimulation" };
+            var inputWert = JOptionPane.showOptionDialog(null, "Wähl eine Option zur Analyse", "Analysieren",0,3,null,optionen,optionen[0]);
+
+            if (inputWert==0){
+                ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.RSquaredBerechnen()));
+            } else if (inputWert==1) {
+                    //// Rangkorrelation /////
+            } else {
+                String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden?");
+                String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag:");
+                String inputWert3 = JOptionPane.showInputDialog("Wie lange soll der Betrag investiert werden? (in Tagen)");
+
+                int iterationen = Integer.parseInt(inputWert1);
+                double betrag = Double.parseDouble(inputWert2);
+                int investitionZeitraum = Integer.parseInt(inputWert3);
+
+                MonteCarloSimulationRendite mcl_rendite = new MonteCarloSimulationRendite();
+                lr.KoeffizientenBerechnung();
+                ergebnisBereich.append("\n" + String.format("Portfolio in %d Tagen: %.6f" ,investitionZeitraum,mcl_rendite.PortfolioswertBerechnen(lr,iterationen,betrag,investitionZeitraum)));
+            }
+        } else if (event.getSource()==MCLWürfelButton) {
+            String inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden?");
+            int anzahlWurfe = Integer.parseInt(inputWert);
+            MonteCarloSimulationWurfel mcl_wuerfel  = new MonteCarloSimulationWurfel(anzahlWurfe);
+            int[] result = mcl_wuerfel.wurfeln();
+            double[] haufigkeit = mcl_wuerfel.ergebnisVerteilung();
+
             punktenListe.setText("");
-            ergebnis.setText("");
-            for (int i = 0; i<lr.getAnzahlderPunkte(); i++){
-                punktenListe.append(lr.getXWert(i) + ", " + lr.getYWert(i) + "\n");
+            for (int i = 0; i<11; i++) {
+                punktenListe.append(String.format("Summe %d entstand %d Mal -> Häufigkeit: %.3f", i + 2, result[i],haufigkeit[i]) + "\n");
             }
-        } else if (event.getSource()==MonteCarloButton) {
-            String inputWert1 = JOptionPane.showInputDialog("Geben Sie bitte die Standardabweichung:");
-            String inputWert2 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden?");
-            String[] optionen = { "RSquared", "Rendite" };
-            var inputWert3 = JOptionPane.showOptionDialog(null, "Wählen Sie bitte eine Simualation aus", "Monte-Carlo-Simulation",0,3,null, optionen, optionen[0]);
-            double standardabweichung = Double.parseDouble(inputWert1);
-            int iterationen = Integer.parseInt(inputWert2);
+            mcl_wuerfel.ergebnisDarstellen();
 
-            if (inputWert3 ==0) {
-                double RSquaredMittelwert = mcl.MCL_RSquared(lr,standardabweichung, iterationen)[0];
-                double SteigungMittelwert = mcl.MCL_RSquared(lr,standardabweichung, iterationen)[1];
-                ergebnis.setText("Mittelwert von RSquared: " + RSquaredMittelwert + "\n" + "Mittelwert von Steigungen: " + SteigungMittelwert);
-                punktenListe.setText("");
-            } /*else {
-                result.setText("Slope_Konfidenzintervall: (" + lr.MCL_Steigung_Konfidenzintervall(standardabweichung,iterations)[0] + ", " + lr.MCL_Steigung_Konfidenzintervall(standardabweichung,iterations)[1] + ")");
-            }*/
         } else if (event.getSource() == addButton) {
             double xWert = Double.parseDouble(xFeld.getText());
             double yWert = Double.parseDouble(yFeld.getText());
@@ -141,10 +142,10 @@ public class GUI extends JFrame implements ActionListener {
         } else if (event.getSource() == loschenButton) {
             lr.PunkteLoeschen();
             punktenListe.setText("");
-            ergebnis.setText("");
+            ergebnisBereich.setText("");
         } else if (event.getSource() == berechnenButton) {
             lr.KoeffizientenBerechnung();
-            ergebnis.setText(String.format("Regressionsgleichung: y = %.2fx + %.2f", lr.getSteigung(), lr.getyAchsenabschnitt()) + "\n" +"RSquared: " + lr.RSquaredBerechnen());
+            ergebnisBereich.setText(String.format("Regressionsgleichung: y = %.6fx + %.6f", lr.getSteigung(), lr.getyAchsenabschnitt()));
             lr.regressiongeradeZeichnen();
         }
     }

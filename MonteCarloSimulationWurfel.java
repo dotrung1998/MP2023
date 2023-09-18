@@ -1,7 +1,9 @@
 package Monte_Carlo_Simulation;
 
-import java.util.Arrays;
 import java.util.Random;
+import plotter.Graphic;
+import plotter.LineStyle;
+import plotter.Plotter;
 
 public class MonteCarloSimulationWurfel {
 
@@ -39,12 +41,19 @@ public class MonteCarloSimulationWurfel {
         return haufigkeit;
     }
 
-    @Override
-    public String toString() {
-        return "anzahlderWuerfe=" + anzahlderWuerfe +
-                ", ergebnis=" + Arrays.toString(ergebnis) +
-                ", haufigkeit=" + Arrays.toString(haufigkeit) +
-                '}';
+    public void ergebnisDarstellen(){
+        Graphic graph = new Graphic("Häufigkeitsdarstellung");
+        Plotter plotter = graph.getPlotter();
+
+        for (int i=2; i<=12; i++){
+            plotter.add(i,ergebnis[i-2]);
+        }
+        plotter.addDataLineStyle(LineStyle.HISTOGRAM);
+
+        double[] xGrid = {2,3,4,5,6,7,8,9,10,11,12};
+        plotter.setXrange(1,13);
+        plotter.setXGrid(xGrid);
+
     }
 }
 

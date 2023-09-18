@@ -5,7 +5,6 @@ import plotter.LineStyle;
 import plotter.Plotter;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -13,11 +12,15 @@ import java.util.Random;
 public class LinearRegression {
     private ArrayList<Double> xWert;
     private ArrayList<Double> yWert;
+    private ArrayList<Double> xRank;
+    private ArrayList<Double> yRank;
     private ArrayList<Double> yWertBackup;
 
     private int n;
     private double steigung;
     private double yAchsenabschnitt;
+    private double steigungRank;
+    private double yAchsenabschnittRank;
     private Random randomWert;
 
 
@@ -25,6 +28,8 @@ public class LinearRegression {
         xWert = new ArrayList<Double>();
         yWert = new ArrayList<Double>();
         yWertBackup = new ArrayList<Double>();
+        xRank = new ArrayList<Double>();
+        yRank = new ArrayList<Double>();
     }
 
     public double getXWert(int i){
@@ -33,6 +38,14 @@ public class LinearRegression {
 
     public double getYWert(int i){
         return yWert.get(i);
+    }
+
+    public double getXRank(int i){
+        return xRank.get(i);
+    }
+
+    public double getYRank(int i){
+        return yRank.get(i);
     }
 
     public double getYWertBackup(int i){
@@ -61,6 +74,23 @@ public class LinearRegression {
         yWertBackup.clear();
     }
 
+    public void KoeffizientenRankBerechnung() {
+        int anzahlRankPunkte = xRank.size();
+        double xRankSumme = 0.0, yRankSumme = 0.0, xRankQuadratSumme = 0.0, xyRankSumme = 0.0;
+        for (int i = 0; i < anzahlRankPunkte; i++) {
+            double x = xRank.get(i);
+            double y = yRank.get(i);
+            xRankSumme += x;
+            yRankSumme += y;
+            xRankQuadratSumme += x * x;
+            xyRankSumme += x * y;
+        }
+        double xRankMittelwert = xRankSumme / anzahlRankPunkte;
+        double yRankMittelwert = yRankSumme / anzahlRankPunkte;
+        this.steigungRank = (anzahlRankPunkte * xyRankSumme - xRankSumme * yRankSumme) / (anzahlRankPunkte * xRankQuadratSumme - xRankSumme * xRankSumme);
+        this.yAchsenabschnittRank = yRankMittelwert - steigungRank * xRankMittelwert;
+    }
+
     public void KoeffizientenBerechnung() {
         int anzahlPunkte = xWert.size();
         double xWertSumme = 0.0, yWertSumme = 0.0, xWertQuadratSumme = 0.0, xySumme = 0.0;
@@ -86,7 +116,13 @@ public class LinearRegression {
         return this.yAchsenabschnitt;
     }
 
+    public double getSteigungRank() {
+        return this.steigungRank;
+    }
 
+    public double getyAchsenabschnittRank() {
+        return this.yAchsenabschnittRank;
+    }
 
     public double RSquaredBerechnen() {
         int anzahlPunkte = xWert.size();
@@ -106,89 +142,48 @@ public class LinearRegression {
         return rSquared;
     }
 
- ////////////////////// Anfang: Spearmann ////////////////////////////
-
-    public double calculateRankCorrelation() {
+    public double RangkorrelationBerechnen() {
         int n = xWert.size();
 
-        // Erstellen Sie Ranglisten für x und y
-        ArrayList<Double> xRank = calculateRank(xWert);
-        ArrayList<Double> yRank = calculateRank(yWert);
+        // Ranglisten für x und y erstellen
+        xRank = RerechnenRank(xWert);
+        yRank = RerechnenRank(yWert);
 
-        // Berechnen Sie die Differenzen zwischen den Ranglisten
-        ArrayList<Double> rankDifferences = new ArrayList<Double>();
+        // Die Differenzen zwischen den Ranglisten berechnen
+        ArrayList<Double> rankDifferenzen = new ArrayList<Double>();
         for (int i = 0; i < n; i++) {
-            rankDifferences.add(xRank.get(i) - yRank.get(i));
+            rankDifferenzen.add(xRank.get(i) - yRank.get(i));
         }
 
-        // Berechnen Sie den Rangkorrelationskoeffizienten
-        double sumRankDifferencesSquared = 0.0;
-        for (Double diff : rankDifferences) {
-            sumRankDifferencesSquared += Math.pow(diff, 2);
+        // Der Rangkorrelationskoeffizienten berechnen
+        double summeRankDifferenzQuadrat = 0.0;
+        for (Double diff : rankDifferenzen) {
+            summeRankDifferenzQuadrat += Math.pow(diff, 2);
         }
 
-        double rankCorrelation = 1 - (6 * sumRankDifferencesSquared) / (n * (n * n - 1));
-        return rankCorrelation;
+        double rankKorrelation = 1 - (6 * summeRankDifferenzQuadrat) / (n * (n * n - 1));
+        return rankKorrelation;
     }
 
-    ////
-    private ArrayList<Double> calculateRank(ArrayList<Double> values) {
+    public ArrayList<Double> RerechnenRank(ArrayList<Double> values) {
+        // Die Werte in ein neues ArrayList kopieren, um die Originalreihenfolge beizubehalten
         ArrayList<Double> sortedValues = new ArrayList<Double>(values);
+
+        // Die Werte in aufsteigender Reihenfolge sortieren
         Collections.sort(sortedValues);
 
+        // Eine Liste für die Ränge erstellen
         ArrayList<Double> rank = new ArrayList<Double>();
+
+        // Die Werte der Ränge zuordnen
         for (Double value : values) {
             int index = sortedValues.indexOf(value);
             rank.add((double) (index + 1));
         }
         return rank;
     }
-
-    ////////////////////// Ende: Spearmann ////////////////////////////
-
-
-    ////////////////////// Anfang: Pearson Korrelation //////////////////////
-
-        // Fügen Sie die Methode calculatePearsonCorrelation() hinzu
-       /* public double calculatePearsonCorrelation() {
-            int n = xWert.size();
-            double sumX = 0.0, sumY = 0.0, sumXX = 0.0, sumYY = 0.0, sumXY = 0.0;
-
-            for (int i = 0; i < n; i++) {
-                double x = xWert.get(i);
-                double y = yWert.get(i);
-                sumX += x;
-                sumY += y;
-                sumXX += x * x;
-                sumYY += y * y;
-                sumXY += x * y;
-            }
-
-            double meanX = sumX / n;
-            double meanY = sumY / n;
-
-            double numerator = 0.0, denominatorX = 0.0, denominatorY = 0.0;
-
-            for (int i = 0; i < n; i++) {
-                double x = xValues.get(i);
-                double y = yValues.get(i);
-                numerator += (x - meanX) * (y - meanY);
-                denominatorX += Math.pow(x - meanX, 2);
-                denominatorY += Math.pow(y - meanY, 2);
-            }
-
-            if (denominatorX == 0 || denominatorY == 0) {
-                return 0.0; // Vermeiden Sie eine Division durch Null
-            }
-
-            return numerator / (Math.sqrt(denominatorX) * Math.sqrt(denominatorY));
-        } */
-        // Andere vorhandene Methoden und Variablen
-
-
-    ////////////////////// Ende: Pearson Korrelation //////////////////////
     
-    public void regressiongeradeZeichnen() {
+   /* public void regressiongeradeZeichnen() {
         Graphic graph = new Graphic("lineare Regression");
         Plotter plotter = graph.getPlotter();
 
@@ -227,104 +222,74 @@ public class LinearRegression {
         }
         graph.repaint();
 
-        //plotter.setYrange(yMin*0.8, yMax*1.2);
-        //plotter.setXLine (0);
-        //plotter.setYLine (0);
-        //double[] xgrid = {1,2,3,4,5,6,7,8,9};
         plotter.setYLabelFormat("%.2f");
         plotter.setAutoYgrid((yMax - yMin) * 0.2);
         plotter.setXLabelFormat("%.2f");
         plotter.setAutoXgrid((xMax - xMin) * 0.2);
-        //plotter.setXGrid(xgrid );
 
-    }
-/*Fehler bei Umtausch der Spalten
-    public void AddDatenAusCSV(String pfad, int spalte1, int spalte2) {
-        String zeile = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(pfad));
-            br.readLine();
+    }*/
 
-            while ((zeile = br.readLine()) != null) {
-                String[] values = zeile.split(",");
-                xWert.add(Double.parseDouble(values[spalte1 -1]));
-                yWert.add(Double.parseDouble(values[spalte2 -1]));
-                yWertBackup.add(Double.parseDouble(values[spalte2 -1]));
+    public void regressiongeradeZeichnen(boolean mitRank) {
+        Graphic graph;
+        ArrayList<Double> xWerte, yWerte;
+        double steigungZeichen, yAchsenabschnittZeichen;
+
+        if (mitRank) {
+            graph = new Graphic("Lineare Regression mit Rank");
+            xWerte = xRank;
+            yWerte = yRank;
+            steigungZeichen = this.getSteigungRank();
+            yAchsenabschnittZeichen = this.getyAchsenabschnittRank();
+        } else {
+            graph = new Graphic("Lineare Regression");
+            xWerte = xWert;
+            yWerte = yWert;
+            steigungZeichen = this.getSteigung();
+            yAchsenabschnittZeichen = this.getyAchsenabschnitt();
+        }
+
+        Plotter plotter = graph.getPlotter();
+
+        int i = 0;
+        double xMax = xWerte.get(0), xMin = xWerte.get(0), yMax = yWerte.get(0), yMin = yWerte.get(0);
+
+        while (i < xWerte.size()) {
+            if (xMax < xWerte.get(i)) {
+                xMax = xWerte.get(i);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if (xMin > xWerte.get(i)) {
+                xMin = xWerte.get(i);
+            }
+
+            if (yMax < yWerte.get(i)) {
+                yMax = yWerte.get(i);
+            }
+
+            if (yMin > yWerte.get(i)) {
+                yMin = yWerte.get(i);
+            }
+
+            plotter.add(xWerte.get(i), yWerte.get(i));
+            plotter.addDataLineStyle(LineStyle.FILLED_SYMBOL);
+            plotter.setSymbolSize(6);
+            plotter.setDataColor(Color.LIGHT_GRAY);
+            i++;
         }
+
+        plotter.nextDataSet();
+
+        for (double x = xMin - (xMax - xMin) * 0.2; x <= xMax + (xMax - xMin) * 0.2; x += 0.05) {
+            plotter.add(x, steigungZeichen * x + yAchsenabschnittZeichen);
+            plotter.setDataColor(Color.RED);
+        }
+        graph.repaint();
+
+        plotter.setYLabelFormat("%.2f");
+        plotter.setAutoYgrid((yMax - yMin) * 0.2);
+        plotter.setXLabelFormat("%.2f");
+        plotter.setAutoXgrid((xMax - xMin) * 0.2);
     }
-
-    public void YRandomErstellen(double standardabweichung) {
-        randomWert = new Random();
-
-        for (int i = 0; i< yWert.size(); i++){
-                double newValues = yWertBackup.get(i) + randomWert.nextGaussian()*standardabweichung;
-                yWert.set(i,newValues);
-        }
-    }
-
-    /*public double[] MCL_RSquared(double standardabweichung,int numIterations) {
-        double sumRSquared = 0.0;
-        double sumSlope = 0.0;
-        for (int i = 0; i<numIterations;i++){
-            addNoisetoY(standardabweichung);
-            KoeffizientenBerechnung();
-            regressiongeradeZeichnen();
-            sumRSquared += RSquaredBerechnen();
-            sumSlope += steigung;
-        }
-        double averageRSquared = sumRSquared/numIterations;
-        double averageSlope = sumSlope/numIterations;
-        double[] ergebnis = {averageRSquared, averageSlope};
-        return ergebnis;
-    }*/
-
-    /*public double[] MCL_Steigung_Konfidenzintervall(double standardabweichung, int numIterations){
-        double sumSlope = 0.0;
-        double sumIntercept = 0.0;
-        for (int i = 0; i<numIterations;i++){
-            YRandomErstellen(standardabweichung);
-            KoeffizientenBerechnung();
-            regressiongeradeZeichnen();
-            sumSlope += steigung;
-            sumIntercept += yAchsenabschnitt;
-        }
-        double averageSlop = sumSlope/numIterations;
-        double averageIntercept = sumIntercept/numIterations;
-
-        // SquaredResiduen berechnen
-        double[] residuals = new double[xWert.size()];
-        double sumSquaredResiduals = 0.0;
-        double sumXValues = 0.0;
-
-        for(int i = 0; i< xWert.size(); i++){
-            residuals[i] = yWertBackup.get(i) - (averageIntercept + averageSlop * xWert.get(i));
-            sumSquaredResiduals += Math.pow(residuals[i],2);
-            sumXValues += xWert.get(i);
-        }
-
-        //Standardfehler der Slope berechnen
-        double xMean = sumXValues/ xWert.size();
-        double standardError = Math.sqrt(sumSquaredResiduals/((xWert.size() - 2) * sumSquaredDeviation(xWert,xMean)));
-
-        //Konfidenzintervall berechnen
-        double criticalValue = 1.96; // Für ein 95%-Konfidenzintervall (standard normal distribution)
-        double[] slopeKonfidenzIntervall = {averageSlop - criticalValue * standardError, averageSlop + criticalValue * standardError};
-
-        return slopeKonfidenzIntervall;
-    }
-
-    private double sumSquaredDeviation(ArrayList<Double> data, double mean) {
-        double sum = 0;
-        for (int i=0; i<data.size(); i++) {
-            sum += Math.pow(data.get(i) - mean, 2);
-        }
-        return sum;
-    }*/
 
 }
 

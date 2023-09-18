@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Importdaten {
+public class ImportDaten {
 
     private String pfad;
 
@@ -13,7 +13,7 @@ public class Importdaten {
 
     private int spalte2;
 
-    public Importdaten(String pfad, int spalte1, int spalte2){
+    public ImportDaten(String pfad, int spalte1, int spalte2){
         this.pfad = pfad;
         this.spalte1 = spalte1;
         this.spalte2 = spalte2;

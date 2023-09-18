@@ -40,14 +40,9 @@ public class MonteCarloSimulation {
                 regression.AddPunkte(daten[2 * j], daten[2 * j + 1]);
             }
             regression.KoeffizientenBerechnung();
-            regression.regressiongeradeZeichnen();
+            regression.regressiongeradeZeichnen(false);
             RSquaredSumme += regression.RSquaredBerechnen();
         }
-
-        /*if (numIterations*numDataPoints<30000){
-            regressionSum.calculateCoefficients();
-            regressionSum.drawRegressionLine();
-            regressionSum.calculateRSquared();}*/
 
         double RSquaredMittelwert = RSquaredSumme / Iterationszahl;
         return RSquaredMittelwert;
@@ -63,14 +58,13 @@ public class MonteCarloSimulation {
         }
     }
 
-
     public double[] MCL_RSquared(LinearRegression linearregression, double standardabweichung, int Iterationszahl) {
         double RSquaredSumme = 0.0;
         double steigungSumme = 0.0;
         for (int i = 0; i < Iterationszahl; i++) {
             YRandomErstellen(linearregression, standardabweichung);
             linearregression.KoeffizientenBerechnung();
-            linearregression.regressiongeradeZeichnen();
+            linearregression.regressiongeradeZeichnen(false);
             RSquaredSumme += linearregression.RSquaredBerechnen();
             steigungSumme += linearregression.getSteigung();
         }
@@ -79,6 +73,4 @@ public class MonteCarloSimulation {
         double[] ergebnis = {RSquaredMittelwert, SteigungMitelwert};
         return ergebnis;
     }
-
-
 }

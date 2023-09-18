@@ -1,9 +1,10 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class GUI extends JFrame implements ActionListener {
 
@@ -87,96 +88,233 @@ public class GUI extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == addDatenAusCSVButton) {
-            String pfad = JOptionPane.showInputDialog("Geben Sie bitte den Pfad der CSV-Datei ein:");
-            String inputWert1 = JOptionPane.showInputDialog("Wählen Sie bitte die erste Spalte aus:");
-            String inputWert2 = JOptionPane.showInputDialog("Wählen Sie bitte die zweite Spalte aus:");
-            int spalte1 = Integer.parseInt(inputWert1);
-            int spalte2 = Integer.parseInt(inputWert2);
+            String pfad = "";
+            int spalte1 = -1;
+            int spalte2 = -1;
+
+            while (true) {
+                pfad = JOptionPane.showInputDialog("Geben Sie bitte den Pfad der CSV-Datei ein (z.B. C:\\Benutzer\\Nutzername\\Dokumente\\MeinCSVFile.csv):");
+                if (pfad == null) {
+                    // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
+                    return;
+                }
+                /*if (!pfad.isEmpty()) {
+                    break; // Die Schleife verlassen, wenn der Pfad nicht leer ist
+                } else {
+                    // Wenn der Benutzer leere Eingabe macht, wird eine Benachrichtigung angezeigt
+                    JOptionPane.showMessageDialog(null, "Sie müssen eine Pfad eingeben.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+                }*/
+                if (!pfad.isEmpty()) {
+                    // Überprüfen, ob der Pfad eine CSV-Datei ist und ob sie existiert
+                    File csvDatei = new File(pfad);
+                    if (csvDatei.exists() && csvDatei.isFile() && pfad.toLowerCase().endsWith(".csv")) {
+                        break; // Die Schleife verlassen, wenn der Pfad gültig ist
+                    } else {
+                        // Wenn der Pfad keine gültige CSV-Datei ist oder nicht existiert, eine Fehlermeldung anzeigen
+                        JOptionPane.showMessageDialog(null, "Ungültiger Pfad zur CSV-Datei. Stellen Sie sicher, dass die Datei existiert und die Erweiterung '.csv' hat.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    // Wenn der Benutzer leere Eingabe macht, wird eine Benachrichtigung angezeigt
+                    JOptionPane.showMessageDialog(null, "Sie müssen einen gültigen Pfad zur CSV-Datei eingeben.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+
+            while (true) {
+                String inputWert1 = JOptionPane.showInputDialog("Wählen Sie bitte die erste Spalte aus (Zahlen z.B.: 1):");
+                if (inputWert1 == null) {
+                    // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
+                    return;
+                }
+                try {
+                    spalte1 = Integer.parseInt(inputWert1);
+                    break; // Die Schleife verlassen, wenn eine gültige Zahl eingegeben wurde
+                } catch (NumberFormatException e) {
+                    // Fehlermeldung anzeigen, wenn keine gültige Zahl eingegeben wurde
+                    JOptionPane.showMessageDialog(null, "Ungültige Eingabe. Bitte geben Sie eine gültige Zahl ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            while (true) {
+                String inputWert2 = JOptionPane.showInputDialog("Wählen Sie bitte die zweite Spalte aus (Zahlen z.B.: 2):");
+                if (inputWert2 == null) {
+                    // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
+                    return;
+                }
+                try {
+                    spalte2 = Integer.parseInt(inputWert2);
+                    break; // Die Schleife verlassen, wenn eine gültige Zahl eingegeben wurde
+                } catch (NumberFormatException e) {
+                    // Fehlermeldung anzeigen, wenn keine gültige Zahl eingegeben wurde
+                    JOptionPane.showMessageDialog(null, "Ungültige Eingabe. Bitte geben Sie eine gültige Zahl ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+            }
 
             importdaten = new ImportDaten(pfad.replace("\\", "/"), spalte1, spalte2);
             importdaten.AddDatenAusCSV(lr);
 
-            //lr.AddDatenAusCSV(path.replace("\\", "/"),colNum1,colNum2);
+            // Anzeigen der Datenpunkte in der GUI
             punktenListe.append("Daten aus CSV:" + "\n");
             for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
                 punktenListe.append(lr.getXWert(i) + ", " + lr.getYWert(i) + "\n");
             }
 
-        /*} else if (event.getSource() == BerechnenMitRankButton) {
-            double rankKorrelation = lr.RangkorrelationBerechnen();
-            punktenListe.append("\n" + "Ränge von Daten:" + "\n" );
-            /*punktenListe.setText("Ränge von Daten:" + "\n");*/
-            /*for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
-                punktenListe.append(lr.getXRank(i) + ", " + lr.getYRank(i) + "\n");
-            }
-
-            lr.KoeffizientenRankBerechnung();
-            ergebnis.setText(String.format("Regressionsgleichung: y = %.2fx + %.2f", lr.getSteigungRank(), lr.getyAchsenabschnittRank()) + "\n" +"Spearman's Rank Korrelation: " + rankKorrelation);
-            //Punkte neu zuordnen und Grafik zeichnen
-            lr.regressiongeradeRankZeichnen();*/
-
-            //////////////////////////////////////////////////////////////////////////
         } else if (event.getSource() == AnalyseButton) {
-            String[] optionen = { "RSquared", "Rangkorrelation", "MonteCarloSimulation" };
-            var inputWert = JOptionPane.showOptionDialog(null, "Wähl eine Option zur Analyse", "Analysieren",0,3,null,optionen,optionen[0]);
-
-            if (inputWert==0){
-                ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.RSquaredBerechnen()));
-            } else if (inputWert==1) {
-                //// Rangkorrelation /////
-                double rankKorrelation = lr.RangkorrelationBerechnen();
-                punktenListe.append("\n" + "Ränge von Daten:" + "\n" );
-                //punktenListe.setText("Ränge von Daten:" + "\n");
-                for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
-                    punktenListe.append(lr.getXRank(i) + ", " + lr.getYRank(i) + "\n");
-                }
-                lr.KoeffizientenRankBerechnung();
-                ergebnisBereich.setText(String.format("Regressionsgleichung mit Rank: y = %.2fx + %.2f", lr.getSteigungRank(), lr.getyAchsenabschnittRank()) + "\n" +"Spearman's Rank Korrelation: " + rankKorrelation);
-                //Punkte neu zuordnen und Grafik zeichnen
-                lr.regressiongeradeZeichnen(true);
+            if (lr.getAnzahlderPunkte() == 0) {
+                // Der Benutzer wurde aufgefordert, X- und Y-Werte einzugeben oder Daten aus einer CSV-Datei zu importieren.
+                JOptionPane.showMessageDialog(null, "Sie müssen zuerst X- und Y-Werte eingeben oder Daten aus einer CSV-Datei importieren.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden?");
-                String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag:");
-                String inputWert3 = JOptionPane.showInputDialog("Wie lange soll der Betrag investiert werden? (in Tagen)");
+                // Hier können Sie die Analyse durchführen, da gültige Daten vorhanden sind
 
-                int iterationen = Integer.parseInt(inputWert1);
-                double betrag = Double.parseDouble(inputWert2);
-                int investitionZeitraum = Integer.parseInt(inputWert3);
+                String[] optionen = { "RSquared", "Rangkorrelation", "MonteCarloSimulation" };
+                int inputWert = JOptionPane.showOptionDialog(null, "Wählen Sie eine Option zur Analyse", "Analysieren", 0, 3, null, optionen, optionen[0]);
 
-                MonteCarloSimulationRendite mcl_rendite = new MonteCarloSimulationRendite();
-                lr.KoeffizientenBerechnung();
-                ergebnisBereich.append("\n" + String.format("Portfolio in %d Tagen: %.6f" ,investitionZeitraum,mcl_rendite.PortfolioswertBerechnen(lr,iterationen,betrag,investitionZeitraum)));
+                if (inputWert >= 0) {
+                    // Eine Analyseoption wurde ausgewählt
+                    if (inputWert == 0) {
+                        // Berechnung und Anzeigen des RSquared-Wertes
+                        ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.RSquaredBerechnen()));
+                    } else if (inputWert == 1) {
+                        // Berechnung und Anzeigen der Rangkorrelation
+                        double rangKorrelation = lr.RangkorrelationBerechnen();
+                        punktenListe.append("\n" + "Ränge von Daten:" + "\n");
+                        for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
+                            punktenListe.append(lr.getXRank(i) + ", " + lr.getYRank(i) + "\n");
+                        }
+                        lr.BerechnenRegressionskoeffizienten(true);
+                        ergebnisBereich.setText(String.format("Regressionsgleichung mit Rang: y = %.2fx + %.2f", lr.getSteigungRang(), lr.getyAchsenabschnittRang()) + "\n" + "Rangkorrelation: " + rangKorrelation);
+                        lr.regressiongeradeZeichnen(true);
+                    } else {
+                        // Durchführung von Monte Carlo Simulation und Anzeigen des Ergebnisses
+                        int iterationen = -1;
+                        double betrag = -1.0;
+                        int investitionZeitraum = -1;
+
+                        while (true) {
+                            String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden? (z.B. 10)");
+                            if (inputWert1 == null) {
+                                // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
+                                return;
+                            }
+                            try {
+                                iterationen = Integer.parseInt(inputWert1);
+                                break; // Die Schleife verlassen, wenn eine gültige Zahl eingegeben wurde
+                            } catch (NumberFormatException e) {
+                                // Fehlermeldung anzeigen, wenn keine gültige Zahl eingegeben wurde
+                                JOptionPane.showMessageDialog(null, "Ungültige Eingabe. Bitte geben Sie eine gültige Zahl ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
+                        while (true) {
+                            String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag (z.B. 1000):");
+                            if (inputWert2 == null) {
+                                // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
+                                return;
+                            }
+                            try {
+                                betrag = Double.parseDouble(inputWert2);
+                                break; // Die Schleife verlassen, wenn eine gültige Zahl eingegeben wurde
+                            } catch (NumberFormatException e) {
+                                // Fehlermeldung anzeigen, wenn keine gültige Zahl eingegeben wurde
+                                JOptionPane.showMessageDialog(null, "Ungültige Eingabe. Bitte geben Sie eine gültige Zahl ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
+                        while (true) {
+                            String inputWert3 = JOptionPane.showInputDialog("Wie lange soll der Betrag investiert werden? (in Tagen z.B 1095)");
+                            if (inputWert3 == null) {
+                                // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
+                                return;
+                            }
+                            try {
+                                investitionZeitraum = Integer.parseInt(inputWert3);
+                                break; // Die Schleife verlassen, wenn eine gültige Zahl eingegeben wurde
+                            } catch (NumberFormatException e) {
+                                // Fehlermeldung anzeigen, wenn keine gültige Zahl eingegeben wurde
+                                JOptionPane.showMessageDialog(null, "Ungültige Eingabe. Bitte geben Sie eine gültige Zahl ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
+                        MonteCarloSimulationRendite mcl_rendite = new MonteCarloSimulationRendite();
+                        lr.BerechnenRegressionskoeffizienten(false);
+                        ergebnisBereich.append("\n" + String.format("Portfolio in %d Tagen: %.6f", investitionZeitraum, mcl_rendite.PortfolioswertBerechnen(lr, iterationen, betrag, investitionZeitraum)));
+                    }
+                }
             }
-        } else if (event.getSource()==MCLWürfelButton) {
-            String inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden?");
-            int anzahlWurfe = Integer.parseInt(inputWert);
-            MonteCarloSimulationWurfel mcl_wuerfel  = new MonteCarloSimulationWurfel(anzahlWurfe);
+
+        } else if (event.getSource() == MCLWürfelButton) {
+            String inputWert;
+            int anzahlWurfe;
+            while (true) {
+                inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden? (Integer: z.B. 1)");
+                if (inputWert != null) { // Überprüfen, ob der Benutzer "Cancel" ausgewählt hat
+                    if (!inputWert.isEmpty()) {
+                        try {
+                            anzahlWurfe = Integer.parseInt(inputWert);
+                            break; // Die Schleife verlassen, wenn eine gültige Zahl eingegeben wurde
+                        } catch (NumberFormatException e) {
+                            // Wenn keine Zahl eingegeben wurde, wird eine Fehlermeldung angezeigt
+                            JOptionPane.showMessageDialog(null, "Sie haben keine gültige Zahl eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        // Wenn der Benutzer leere Eingabe macht, wird eine Benachrichtigung angezeigt
+                        JOptionPane.showMessageDialog(null, "Sie müssen eine Zahl für die Anzahl der Würfe eingeben.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    // Wenn der Benutzer "Cancel" auswählt, wird keine Aktion ausgeführt
+                    return; // Die Methode beenden, da keine gültige Eingabe vorliegt
+                }
+            }
+
+            // Hier können Sie die Variable 'anzahlWurfe' verwenden, die die gültige Anzahl von Würfen enthält
+            MonteCarloSimulationWurfel mcl_wuerfel = new MonteCarloSimulationWurfel(anzahlWurfe);
             int[] result = mcl_wuerfel.wurfeln();
             double[] haufigkeit = mcl_wuerfel.ergebnisVerteilung();
 
             punktenListe.setText("");
-            for (int i = 0; i<11; i++) {
-                punktenListe.append(String.format("Summe %d entstand %d Mal -> Häufigkeit: %.3f", i + 2, result[i],haufigkeit[i]) + "\n");
+            for (int i = 0; i < 11; i++) {
+                punktenListe.append(String.format("Summe %d entstand %d Mal -> Häufigkeit: %.3f", i + 2, result[i], haufigkeit[i]) + "\n");
             }
             mcl_wuerfel.ergebnisDarstellen();
 
         } else if (event.getSource() == addButton) {
-            double xWert = Double.parseDouble(xFeld.getText());
-            double yWert = Double.parseDouble(yFeld.getText());
-            lr.AddPunkte(xWert, yWert);
-            punktenListe.append(xWert + ", " + yWert + "\n");
-            xFeld.setText("");
-            yFeld.setText("");
+            // Hinzufügung und Anzeigen der Datenpunkte in der GUI, wenn X-Wert und Y-Wert nicht leer sind
+            String xEingabe = xFeld.getText().trim();
+            String yEingabe = yFeld.getText().trim();
+
+            if (!xEingabe.isEmpty() && !yEingabe.isEmpty()) {
+                try {
+                    double xWert = Double.parseDouble(xEingabe);
+                    double yWert = Double.parseDouble(yEingabe);
+                    lr.AddPunkte(xWert, yWert);
+                    punktenListe.append(xWert + ", " + yWert + "\n");
+                    xFeld.setText("");
+                    yFeld.setText("");
+                } catch (NumberFormatException e) {
+                    // Wenn keine Zahl eingegeben wurde, wird eine Fehlermeldung angezeigt
+                    JOptionPane.showMessageDialog(null, "Sie haben keine gültige Zahl eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                // Wenn X-Wert oder Y-Wert leer sind, wird ein Hinweis angezeigt
+                JOptionPane.showMessageDialog(null, "X-Wert und Y-Wert dürfen nicht leer sein.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+            }
 
         } else if (event.getSource() == loschenButton) {
+            // Löschung aller Daten
             lr.PunkteLoeschen();
             punktenListe.setText("");
             ergebnisBereich.setText("");
 
         } else if (event.getSource() == berechnenButton) {
-            lr.KoeffizientenBerechnung();
-            ergebnisBereich.setText(String.format("Regressionsgleichung: y = %.2fx + %.2f", lr.getSteigung(), lr.getyAchsenabschnitt()));
-            lr.regressiongeradeZeichnen(false);
+            if (lr.getAnzahlderPunkte() == 0) {
+                // Der Benutzer wurde aufgefordert, X- und Y-Werte einzugeben oder Daten aus einer CSV-Datei zu importieren.
+                JOptionPane.showMessageDialog(null, "Sie müssen zuerst X- und Y-Werte eingeben oder Daten aus einer CSV-Datei importieren.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Berechnung der Regressionskoeffizienten und Zeichnung der Regressionsgerade
+                lr.BerechnenRegressionskoeffizienten(false);
+                ergebnisBereich.setText(String.format("Regressionsgleichung: y = %.2fx + %.2f", lr.getSteigung(), lr.getyAchsenabschnitt()));
+                lr.regressiongeradeZeichnen(false);
+            }
         }
     }
 }

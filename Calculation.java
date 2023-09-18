@@ -42,16 +42,16 @@ class ZielloserSpaziergang {
     }
 }
 
-class LinearRegression {
+class BerechnenLinearRegression {
     private List<Double> xList;
     private List<Double> yList;
 
-    public LinearRegression(List<Double> xList, List<Double> yList) {
+    public BerechnenLinearRegression(List<Double> xList, List<Double> yList) {
         this.xList = xList;
         this.yList = yList;
     }
 
-    public double[] calculate() {
+    public double[] Rechnen() {
         double sumX = 0.0;
         double sumY = 0.0;
         double sumXY = 0.0;
@@ -87,10 +87,9 @@ class Main {
             yList.add((double) z.getY());
         }
 
-        LinearRegression lr = new LinearRegression(xList, yList);
-        double[] result = lr.calculate();
+        BerechnenLinearRegression lr = new BerechnenLinearRegression(xList, yList);
+        double[] result = lr.Rechnen();
         System.out.println("Slope: " + result[0]);
         System.out.println("Intercept: " + result[1]);
     }
-
 }

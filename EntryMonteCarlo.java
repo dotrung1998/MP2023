@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 public class EntryMonteCarlo {
     public static void main(String[] args) {

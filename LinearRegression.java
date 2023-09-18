@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 import plotter.Graphic;
 import plotter.LineStyle;
@@ -7,29 +7,26 @@ import plotter.Plotter;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 public class LinearRegression {
-    private ArrayList<Double> xWert;
-    private ArrayList<Double> yWert;
-    private ArrayList<Double> xRank;
-    private ArrayList<Double> yRank;
-    private ArrayList<Double> yWertBackup;
+    private ArrayList<Double> xWert; // Liste der x-Werte der Datenpunkte
+    private ArrayList<Double> yWert; // Liste der y-Werte der Datenpunkte
+    private ArrayList<Double> xRang; // Liste der Rang-werte für x
+    private ArrayList<Double> yRang; // Liste der Rang-werte für y
+    private ArrayList<Double> yWertBackup; // Backup der y-Werte für Monte-Carlo-Simulation
 
-    private int n;
-    private double steigung;
-    private double yAchsenabschnitt;
-    private double steigungRank;
-    private double yAchsenabschnittRank;
-    private Random randomWert;
 
+    private double steigung; // Steigung der Regressionsgeraden
+    private double yAchsenabschnitt; // y-Achsenabschnitt der Regressionsgeraden
+    private double steigungRang; // Steigung der Regressionsgeraden mit Rang
+    private double yAchsenabschnittRang; // y-Achsenabschnitt der Regressionsgeraden mit Rang
 
     public LinearRegression() {
         xWert = new ArrayList<Double>();
         yWert = new ArrayList<Double>();
         yWertBackup = new ArrayList<Double>();
-        xRank = new ArrayList<Double>();
-        yRank = new ArrayList<Double>();
+        xRang = new ArrayList<Double>();
+        yRang = new ArrayList<Double>();
     }
 
     public double getXWert(int i){
@@ -41,11 +38,11 @@ public class LinearRegression {
     }
 
     public double getXRank(int i){
-        return xRank.get(i);
+        return xRang.get(i);
     }
 
     public double getYRank(int i){
-        return yRank.get(i);
+        return yRang.get(i);
     }
 
     public double getYWertBackup(int i){
@@ -56,74 +53,74 @@ public class LinearRegression {
         return yWert.set(i,neuWert);
     }
 
- // Anzahl der Punkte
+    // Anzahl der vorhandenen Datenpunkte abrufen
     public int getAnzahlderPunkte(){
         return xWert.size();
     }
 
-    //ValuesBackup für den Monte-Carlo
+    // Die Hinzufügung der Datenpunkte für die Monte-Carlo-Simulation
     public void AddPunkte(double x, double y) {
         xWert.add(x);
         yWert.add(y);
         yWertBackup.add(y);
     }
 
+    // Löschung aller Datenpunkte
     public void PunkteLoeschen() {
         xWert.clear();
         yWert.clear();
         yWertBackup.clear();
     }
 
-    public void KoeffizientenRankBerechnung() {
-        int anzahlRankPunkte = xRank.size();
-        double xRankSumme = 0.0, yRankSumme = 0.0, xRankQuadratSumme = 0.0, xyRankSumme = 0.0;
-        for (int i = 0; i < anzahlRankPunkte; i++) {
-            double x = xRank.get(i);
-            double y = yRank.get(i);
-            xRankSumme += x;
-            yRankSumme += y;
-            xRankQuadratSumme += x * x;
-            xyRankSumme += x * y;
-        }
-        double xRankMittelwert = xRankSumme / anzahlRankPunkte;
-        double yRankMittelwert = yRankSumme / anzahlRankPunkte;
-        this.steigungRank = (anzahlRankPunkte * xyRankSumme - xRankSumme * yRankSumme) / (anzahlRankPunkte * xRankQuadratSumme - xRankSumme * xRankSumme);
-        this.yAchsenabschnittRank = yRankMittelwert - steigungRank * xRankMittelwert;
-    }
-
-    public void KoeffizientenBerechnung() {
+    public void BerechnenRegressionskoeffizienten(boolean mitRang) {
         int anzahlPunkte = xWert.size();
+        ArrayList<Double> xDaten = mitRang ? xRang : xWert;
+        ArrayList<Double> yDaten = mitRang ? yRang : yWert;
+
         double xWertSumme = 0.0, yWertSumme = 0.0, xWertQuadratSumme = 0.0, xySumme = 0.0;
+
         for (int i = 0; i < anzahlPunkte; i++) {
-            double x = xWert.get(i);
-            double y = yWert.get(i);
+            double x = xDaten.get(i);
+            double y = yDaten.get(i);
             xWertSumme += x;
             yWertSumme += y;
             xWertQuadratSumme += x * x;
             xySumme += x * y;
         }
+
         double xMittelwert = xWertSumme / anzahlPunkte;
         double yMittelwert = yWertSumme / anzahlPunkte;
-        this.steigung = (anzahlPunkte * xySumme - xWertSumme * yWertSumme) / (anzahlPunkte * xWertQuadratSumme - xWertSumme * xWertSumme);
-        this.yAchsenabschnitt = yMittelwert - steigung * xMittelwert;
+
+        if (mitRang) {
+            this.steigungRang = (anzahlPunkte * xySumme - xWertSumme * yWertSumme) / (anzahlPunkte * xWertQuadratSumme - xWertSumme * xWertSumme);
+            this.yAchsenabschnittRang = yMittelwert - steigungRang * xMittelwert;
+        } else {
+            this.steigung = (anzahlPunkte * xySumme - xWertSumme * yWertSumme) / (anzahlPunkte * xWertQuadratSumme - xWertSumme * xWertSumme);
+            this.yAchsenabschnitt = yMittelwert - steigung * xMittelwert;
+        }
     }
 
+    // Abrufen der Steigung der Regressionsgeraden ohne Rang
     public double getSteigung() {
         return this.steigung;
     }
 
+    // Abrufen des y-Achsenabschnitts der Regressionsgeraden ohne Rang
     public double getyAchsenabschnitt() {
         return this.yAchsenabschnitt;
     }
 
-    public double getSteigungRank() {
-        return this.steigungRank;
+    // Abrufen des y-Achsenabschnitts der Regressionsgeraden mit Rang
+    public double getSteigungRang() {
+        return this.steigungRang;
     }
 
-    public double getyAchsenabschnittRank() {
-        return this.yAchsenabschnittRank;
+    // Abrufen des y-Achsenabschnitts der Regressionsgeraden mit Rang
+    public double getyAchsenabschnittRang() {
+        return this.yAchsenabschnittRang;
     }
 
+    // Berechnung des R-squared-Wertes zur Analyse der Korrekation zwischen Daten
     public double RSquaredBerechnen() {
         int anzahlPunkte = xWert.size();
         double SQT = 0.0, yWertSumme = 0.0, SQR = 0.0;
@@ -142,104 +139,61 @@ public class LinearRegression {
         return rSquared;
     }
 
+    // Berechnung des Rangkorrelationskoeffizienten für Datenpunkte
     public double RangkorrelationBerechnen() {
         int n = xWert.size();
 
         // Ranglisten für x und y erstellen
-        xRank = RerechnenRank(xWert);
-        yRank = RerechnenRank(yWert);
+        xRang = RerechnenRang(xWert);
+        yRang = RerechnenRang(yWert);
 
-        // Die Differenzen zwischen den Ranglisten berechnen
+        // Berechnung der Differenzen zwischen den Ranglisten
         ArrayList<Double> rankDifferenzen = new ArrayList<Double>();
         for (int i = 0; i < n; i++) {
-            rankDifferenzen.add(xRank.get(i) - yRank.get(i));
+            rankDifferenzen.add(xRang.get(i) - yRang.get(i));
         }
 
-        // Der Rangkorrelationskoeffizienten berechnen
+        // Berechnung der Rangkorrelationskoeffizienten
         double summeRankDifferenzQuadrat = 0.0;
         for (Double diff : rankDifferenzen) {
             summeRankDifferenzQuadrat += Math.pow(diff, 2);
         }
 
-        double rankKorrelation = 1 - (6 * summeRankDifferenzQuadrat) / (n * (n * n - 1));
-        return rankKorrelation;
+        double rangKorrelation = 1 - (6 * summeRankDifferenzQuadrat) / (n * (n * n - 1));
+        return rangKorrelation;
     }
 
-    public ArrayList<Double> RerechnenRank(ArrayList<Double> values) {
-        // Die Werte in ein neues ArrayList kopieren, um die Originalreihenfolge beizubehalten
+    // Berechnung der Ranglisten für eine Liste von Werten
+    public ArrayList<Double> RerechnenRang(ArrayList<Double> values) {
+        // Kopieren der Werte in ein neues ArrayList, um die Originalreihenfolge beizubehalten
         ArrayList<Double> sortedValues = new ArrayList<Double>(values);
 
-        // Die Werte in aufsteigender Reihenfolge sortieren
+        // Sortierung der Werte in aufsteigender Reihenfolge
         Collections.sort(sortedValues);
 
-        // Eine Liste für die Ränge erstellen
+        // Erstellung einer Liste für die Ränge
         ArrayList<Double> rank = new ArrayList<Double>();
 
-        // Die Werte der Ränge zuordnen
+        // Zuordnung der Werte der Ränge
         for (Double value : values) {
             int index = sortedValues.indexOf(value);
             rank.add((double) (index + 1));
         }
         return rank;
     }
-    
-   /* public void regressiongeradeZeichnen() {
-        Graphic graph = new Graphic("lineare Regression");
-        Plotter plotter = graph.getPlotter();
 
-        int i = 0;
-        double xMax = xWert.get(0), xMin = xWert.get(0), yMax = yWert.get(0), yMin = yWert.get(0);
-
-        while (i < xWert.size()) {
-            if (xMax < xWert.get(i)) {
-                xMax = xWert.get(i);
-            }
-
-            if (xMin > xWert.get(i)) {
-                xMin = xWert.get(i);
-            }
-
-            if (yMax < yWert.get(i)) {
-                yMax = yWert.get(i);
-            }
-
-            if (yMin > yWert.get(i)) {
-                yMin = yWert.get(i);
-            }
-
-            plotter.add(xWert.get(i), yWert.get(i));
-            plotter.addDataLineStyle(LineStyle.FILLED_SYMBOL);
-            plotter.setSymbolSize(6);
-            plotter.setDataColor(Color.LIGHT_GRAY);
-            i++;
-        }
-
-        plotter.nextDataSet();
-
-        for (double x = xMin - (xMax - xMin) * 0.2; x <= xMax + (xMax - xMin) * 0.2; x += 0.05) {
-            plotter.add(x, this.getSteigung() * x + this.getyAchsenabschnitt());
-            plotter.setDataColor(Color.RED);
-        }
-        graph.repaint();
-
-        plotter.setYLabelFormat("%.2f");
-        plotter.setAutoYgrid((yMax - yMin) * 0.2);
-        plotter.setXLabelFormat("%.2f");
-        plotter.setAutoXgrid((xMax - xMin) * 0.2);
-
-    }*/
-
-    public void regressiongeradeZeichnen(boolean mitRank) {
+   // Methode zur Zeichnung der Regressionsgeraden (mit und ohne Rang)
+    public void regressiongeradeZeichnen(boolean mitRang) {
         Graphic graph;
         ArrayList<Double> xWerte, yWerte;
         double steigungZeichen, yAchsenabschnittZeichen;
 
-        if (mitRank) {
-            graph = new Graphic("Lineare Regression mit Rank");
-            xWerte = xRank;
-            yWerte = yRank;
-            steigungZeichen = this.getSteigungRank();
-            yAchsenabschnittZeichen = this.getyAchsenabschnittRank();
+        if (mitRang) {
+            graph = new Graphic("Lineare Regression mit Rang");
+            xWerte = xRang;
+            yWerte = yRang;
+            steigungZeichen = this.getSteigungRang();
+            yAchsenabschnittZeichen = this.getyAchsenabschnittRang();
         } else {
             graph = new Graphic("Lineare Regression");
             xWerte = xWert;

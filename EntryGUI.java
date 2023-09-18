@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 public class EntryGUI {
     public static void main(String[] args) {

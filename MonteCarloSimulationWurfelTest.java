@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 import org.junit.jupiter.api.Test;
 

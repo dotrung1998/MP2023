@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 import java.util.Random;
 
@@ -39,7 +39,7 @@ public class MonteCarloSimulation {
             for (int j = 0; j < DatenpunktenAnzahl; j++) {
                 regression.AddPunkte(daten[2 * j], daten[2 * j + 1]);
             }
-            regression.KoeffizientenBerechnung();
+            regression.BerechnenRegressionskoeffizienten(false);
             regression.regressiongeradeZeichnen(false);
             RSquaredSumme += regression.RSquaredBerechnen();
         }
@@ -63,7 +63,7 @@ public class MonteCarloSimulation {
         double steigungSumme = 0.0;
         for (int i = 0; i < Iterationszahl; i++) {
             YRandomErstellen(linearregression, standardabweichung);
-            linearregression.KoeffizientenBerechnung();
+            linearregression.BerechnenRegressionskoeffizienten(false);
             linearregression.regressiongeradeZeichnen(false);
             RSquaredSumme += linearregression.RSquaredBerechnen();
             steigungSumme += linearregression.getSteigung();

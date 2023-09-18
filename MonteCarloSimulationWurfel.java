@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainPorjekt;
 
 import java.util.Random;
 import plotter.Graphic;

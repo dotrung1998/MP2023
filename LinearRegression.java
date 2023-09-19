@@ -137,26 +137,26 @@ public class LinearRegression {
      int n = xWert.size();
 
      // Ranglisten für x und y erstellen
-     xRang = BerechnenRank(xWert);
-     yRang = BerechnenRank(yWert);
+     xRang = BerechnenRang(xWert);
+     yRang = BerechnenRang(yWert);
 
      // Die Differenzen zwischen den Ranglisten berechnen
-     ArrayList<Integer> rankDifferenzen = new ArrayList<Integer>();
+     ArrayList<Integer> rangDifferenzen = new ArrayList<Integer>();
      for (int i = 0; i < n; i++) {
-         rankDifferenzen.add(xRang.get(i) - yRang.get(i));
+         rangDifferenzen.add(xRang.get(i) - yRang.get(i));
      }
 
      // Der Rangkorrelationskoeffizienten berechnen
-     double summeRankDifferenzQuadrat = 0.0;
-     for (Integer diff : rankDifferenzen) {
-         summeRankDifferenzQuadrat += Math.pow(diff, 2);
+     double summeRangDifferenzQuadrat = 0.0;
+     for (Integer diff : rangDifferenzen) {
+         summeRangDifferenzQuadrat += Math.pow(diff, 2);
      }
 
-     double rankKorrelation = 1 - (6 * summeRankDifferenzQuadrat) / (n * (n * n - 1));
-     return rankKorrelation;
+     double rangKorrelation = 1 - (6 * summeRangDifferenzQuadrat) / (n * (n * n - 1));
+     return rangKorrelation;
  }
 
-   private ArrayList<Integer> BerechnenRank(ArrayList<Double> values) {
+   private ArrayList<Integer> BerechnenRang(ArrayList<Double> values) {
         // Die Werte in ein neues ArrayList kopieren, um die Originalreihenfolge beizubehalten
         ArrayList<Double> sortedValues = new ArrayList<Double>(values);
 

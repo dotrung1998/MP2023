@@ -6,17 +6,21 @@ import plotter.Plotter;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LinearRegression {
     private ArrayList<Double> xWert;
     private ArrayList<Double> yWert;
     private double steigung;
     private double yAchsenabschnitt;
-
+    private ArrayList<Integer> xRang;
+    private ArrayList<Integer> yRang;
 
     public LinearRegression() {
         xWert = new ArrayList<Double>();
         yWert = new ArrayList<Double>();
+        xRang = new ArrayList<Integer>();
+        yRang = new ArrayList<Integer>();
     }
 
     public double getXWert(int i){
@@ -30,19 +34,24 @@ public class LinearRegression {
     public int getAnzahlderPunkte(){
         return xWert.size();
     }
+    public int getXRang(int i){ return xRang.get(i); }
 
-    //ValuesBackup für den Monte-Carlo
+    public int getYRang(int i){ return yRang.get(i); }
+    public double getSteigung() { return this.steigung; }
+
+    public double getyAchsenabschnitt() { return this.yAchsenabschnitt; }
+
     public void AddPunkte(double x, double y) {
         xWert.add(x);
         yWert.add(y);
     }
 
-    public void PunkteLoeschen() {
+    public void LoeschenPunkte() {
         xWert.clear();
         yWert.clear();
     }
 
-    public void KoeffizientenBerechnung() {
+    public void BerechnenKoeffizienten() {
         int anzahlPunkte = xWert.size();
         double xWertSumme = 0.0, yWertSumme = 0.0, xWertQuadratSumme = 0.0, xySumme = 0.0;
         for (int i = 0; i < anzahlPunkte; i++) {
@@ -59,15 +68,7 @@ public class LinearRegression {
         this.yAchsenabschnitt = yMittelwert - steigung * xMittelwert;
     }
 
-    public double getSteigung() {
-        return this.steigung;
-    }
-
-    public double getyAchsenabschnitt() {
-        return this.yAchsenabschnitt;
-    }
-
-    public double RSquaredBerechnen() {
+    public double BerechnenRSquared() {
         int anzahlPunkte = xWert.size();
         double SQT = 0.0, yWertSumme = 0.0, SQR = 0.0;
         // SQT: Summe der Quadrate der Totalabstände, misst die Gesamtvariation der abhängigen Variable (Y) in den Daten.
@@ -85,10 +86,8 @@ public class LinearRegression {
         return rSquared;
     }
 
- ////////////////////// Rankkorrelation einfügen ////////////////////////////
-    
-    public void regressiongeradeZeichnen() {
-        Graphic graph = new Graphic("lineare Regression");
+    public void ZeichnenRegressiongerade() {
+        Graphic graph = new Graphic("Lineare Regression");
         Plotter plotter = graph.getPlotter();
 
         int i = 0;
@@ -121,7 +120,7 @@ public class LinearRegression {
         plotter.nextDataSet();
 
         for (double x = xMin - (xMax - xMin) * 0.2; x <= xMax + (xMax - xMin) * 0.2; x += 0.05) {
-            plotter.add(x, this.getSteigung() * x + this.getyAchsenabschnitt());
+            plotter.add(x, steigung * x + yAchsenabschnitt);
             plotter.setDataColor(Color.RED);
         }
         graph.repaint();
@@ -133,6 +132,65 @@ public class LinearRegression {
 
     }
 
+    // Rangkorrelation //
+ public double BerechnenRangkorrelation() {
+     int n = xWert.size();
+
+     // Ranglisten für x und y erstellen
+     xRang = BerechnenRank(xWert);
+     yRang = BerechnenRank(yWert);
+
+     // Die Differenzen zwischen den Ranglisten berechnen
+     ArrayList<Integer> rankDifferenzen = new ArrayList<Integer>();
+     for (int i = 0; i < n; i++) {
+         rankDifferenzen.add(xRang.get(i) - yRang.get(i));
+     }
+
+     // Der Rangkorrelationskoeffizienten berechnen
+     double summeRankDifferenzQuadrat = 0.0;
+     for (Integer diff : rankDifferenzen) {
+         summeRankDifferenzQuadrat += Math.pow(diff, 2);
+     }
+
+     double rankKorrelation = 1 - (6 * summeRankDifferenzQuadrat) / (n * (n * n - 1));
+     return rankKorrelation;
+ }
+
+   private ArrayList<Integer> BerechnenRank(ArrayList<Double> values) {
+        // Die Werte in ein neues ArrayList kopieren, um die Originalreihenfolge beizubehalten
+        ArrayList<Double> sortedValues = new ArrayList<Double>(values);
+
+        // Die Werte in aufsteigender Reihenfolge sortieren
+        Collections.sort(sortedValues);
+
+        // Eine Liste für die Ränge erstellen
+        ArrayList<Integer> rank = new ArrayList<Integer>();
+
+        // Die Werte der Ränge zuordnen
+        for (Double value : values) {
+            int index = sortedValues.indexOf(value);
+            rank.add(index + 1);
+        }
+        return rank;
+    }
+
+    public void DarstellenRangdaten(){
+        Graphic graph = new Graphic("Rangdaten");
+        Plotter plotter = graph.getPlotter();
+        int i = 0;
+
+        while (i < xRang.size()) {
+            plotter.add(xRang.get(i), yRang.get(i));
+            plotter.addDataLineStyle(LineStyle.FILLED_SYMBOL);
+            plotter.setSymbolSize(6);
+            plotter.setDataColor(Color.LIGHT_GRAY);
+            i++;
+        }
+        plotter.setAutoYgrid(xRang.size()/10);
+        plotter.setAutoXgrid(yRang.size()/10);
+        plotter.setXrange(0,xRang.size());
+        plotter.setYrange(0,yRang.size());
+    }
 }
 
 

@@ -16,7 +16,7 @@ public class MonteCarloSimulationRendite {
         yWertZufall = new ArrayList<Double>();
     }
 
-    public double PortfolioswertBerechnen(LinearRegression lr, int numIterations,double betrag, int zeitraum){
+    public double BerechnenPortfolioswert(LinearRegression lr, int numIterations,double betrag, int zeitraum){
         Graphic graph = new Graphic("Portfolio Verlauf");
         Plotter plotter = graph.getPlotter();
 

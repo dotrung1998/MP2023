@@ -164,14 +164,14 @@ public class LinearRegression {
         Collections.sort(sortedValues);
 
         // Eine Liste für die Ränge erstellen
-        ArrayList<Integer> rank = new ArrayList<Integer>();
+        ArrayList<Integer> rang = new ArrayList<Integer>();
 
         // Die Werte der Ränge zuordnen
         for (Double value : values) {
             int index = sortedValues.indexOf(value);
-            rank.add(index + 1);
+            rang.add(index + 1);
         }
-        return rank;
+        return rang;
     }
 
     public void DarstellenRangdaten(){

@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import java.util.Random;
 import plotter.Graphic;

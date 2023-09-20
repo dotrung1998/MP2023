@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import javax.swing.*;
 import java.awt.*;

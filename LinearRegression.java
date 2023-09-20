@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import plotter.Graphic;
 import plotter.LineStyle;

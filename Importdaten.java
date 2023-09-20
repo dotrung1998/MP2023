@@ -1,4 +1,4 @@
-package Monte_Carlo_Simulation;
+package MainProjekt;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,9 +16,7 @@ public class MonteCarloSimulationRendite {
         yWertZufall = new ArrayList<Double>();
     }
 
-    // Berechnung des Portfolio-Wertes basierend auf Monte-Carlo-Simulation
-    public double PortfolioswertBerechnen(LinearRegression lr, int numIterations,double betrag, int zeitraum){
-        // Erzeugung einer grafischen Darstellung des Portfolio-Verlaufs
+    public double BerechnenPortfolioswert(LinearRegression lr, int numIterations,double betrag, int zeitraum){
         Graphic graph = new Graphic("Portfolio Verlauf");
         Plotter plotter = graph.getPlotter();
 
@@ -64,8 +62,7 @@ public class MonteCarloSimulationRendite {
         return portfolioSumme/numIterations;
     }
 
-    // Berechnung des Erwartungswertes der Rendite
-    private double ErwartungswertRendite(LinearRegression lr) {
+    public double ErwartungswertRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
         double summe = 0.0;
 
@@ -76,8 +73,7 @@ public class MonteCarloSimulationRendite {
         return erwartungswert;
     }
 
-    // Berechnung Standardabweichung der Rendite
-    private double StandardabweichungRendite(LinearRegression lr) {
+    public double StandardabweichungRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
         double residuen = 0.0;
         double quadratsumme =0.0;

@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

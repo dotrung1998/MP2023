@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,6 @@ public class GUI extends JFrame implements ActionListener {
     private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, AnalyseButton, MCLWürfelButton;
     private JTextArea punktenListe, ergebnisBereich;
     private LinearRegression lr;
-
     private ImportDaten importdaten;
     private JFrame rahmen;
 
@@ -23,7 +22,7 @@ public class GUI extends JFrame implements ActionListener {
         rahmen = new JFrame();
         rahmen.setTitle("Lineare Regression");
         rahmen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        rahmen.setSize(500,500);
+        rahmen.setSize(550,550);
         rahmen.setLayout(new BorderLayout());
 
         JLabel xLabel = new JLabel("X-Wert:");
@@ -40,15 +39,14 @@ public class GUI extends JFrame implements ActionListener {
         berechnenButton = new JButton("Berechnen");
         berechnenButton.setBackground(Color.PINK);
         addDatenAusCSVButton = new JButton("CSV Daten");
-        AnalyseButton = new JButton("Analysieren");
+        AnalyseButton =new JButton("Analysieren");
         MCLWürfelButton = new JButton("Monte Carlo Simulation");
 
-        punktenListe = new JTextArea(15, 20);
+        punktenListe = new JTextArea();
         punktenListe.setEditable(false);
         punktenListe.setAlignmentX(10);
         JScrollPane scrollPane1 = new JScrollPane(punktenListe);
-        ergebnisBereich = new JTextArea(10, 20);
-        ergebnisBereich.setEditable(false);
+        ergebnisBereich = new JTextArea();
 
         JPanel inputPanel = new JPanel(new GridLayout(2, 2));
         inputPanel.add(xLabel);
@@ -63,6 +61,7 @@ public class GUI extends JFrame implements ActionListener {
         buttonPanel.add(addDatenAusCSVButton);
         buttonPanel.add(AnalyseButton);
         buttonPanel.add(MCLWürfelButton);
+
 
         JPanel outputPanel = new JPanel(new GridLayout(2, 1));
         outputPanel.add(scrollPane1);
@@ -87,7 +86,50 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event) {
-        if (event.getSource() == addDatenAusCSVButton) {
+        if (event.getSource() == addButton) {
+            // Hinzufügung und Anzeigen der Datenpunkte in der GUI, wenn X-Wert und Y-Wert nicht leer sind
+            String xEingabe = xFeld.getText().trim();
+            String yEingabe = yFeld.getText().trim();
+
+            if (!xEingabe.isEmpty() && !yEingabe.isEmpty()) {
+                try {
+                    double xWert = Double.parseDouble(xEingabe);
+                    double yWert = Double.parseDouble(yEingabe);
+                    lr.AddPunkte(xWert, yWert);
+                    punktenListe.append(xWert + ", " + yWert + "\n");
+                    xFeld.setText("");
+                    yFeld.setText("");
+                } catch (NumberFormatException e) {
+                    // Wenn keine Zahl eingegeben wurde, wird eine Fehlermeldung angezeigt
+                    JOptionPane.showMessageDialog(null, "Sie haben keine gültige Zahl eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                // Wenn X-Wert oder Y-Wert leer sind, wird ein Hinweis angezeigt
+                JOptionPane.showMessageDialog(null, "X-Wert und Y-Wert dürfen nicht leer sein.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+        else if (event.getSource() == loschenButton) {
+            // Löschung aller Daten
+            lr.LoeschenPunkte();
+            punktenListe.setText("");
+            ergebnisBereich.setText("");
+        }
+
+        else if (event.getSource() == berechnenButton) {
+            if (lr.getAnzahlderPunkte() == 0) {
+                // Der Benutzer wurde aufgefordert, X- und Y-Werte einzugeben oder Daten aus einer CSV-Datei zu importieren.
+                JOptionPane.showMessageDialog(null, "Sie müssen zuerst X- und Y-Werte eingeben oder Daten aus einer CSV-Datei importieren.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Berechnung der Regressionskoeffizienten und Zeichnung der Regressionsgerade
+                lr.BerechnenKoeffizienten();
+                ergebnisBereich.setText(String.format("Regressionsgleichung: y = %.6fx + %.6f", lr.getSteigung(), lr.getyAchsenabschnitt()));
+                lr.ZeichnenRegressiongerade();
+            }
+        }
+
+        else if (event.getSource() == addDatenAusCSVButton) {
             String pfad = "";
             int spalte1 = -1;
             int spalte2 = -1;
@@ -98,12 +140,7 @@ public class GUI extends JFrame implements ActionListener {
                     // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                     return;
                 }
-                /*if (!pfad.isEmpty()) {
-                    break; // Die Schleife verlassen, wenn der Pfad nicht leer ist
-                } else {
-                    // Wenn der Benutzer leere Eingabe macht, wird eine Benachrichtigung angezeigt
-                    JOptionPane.showMessageDialog(null, "Sie müssen eine Pfad eingeben.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
-                }*/
+
                 if (!pfad.isEmpty()) {
                     // Überprüfen, ob der Pfad eine CSV-Datei ist und ob sie existiert
                     File csvDatei = new File(pfad);
@@ -155,10 +192,11 @@ public class GUI extends JFrame implements ActionListener {
             // Anzeigen der Datenpunkte in der GUI
             punktenListe.append("Daten aus CSV:" + "\n");
             for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
-                punktenListe.append(lr.getXWert(i) + ", " + lr.getYWert(i) + "\n");
+                punktenListe.append(String.format("%.6f, %.6f", lr.getXWert(i), lr.getYWert(i)) + "\n");
             }
+        }
 
-        } else if (event.getSource() == AnalyseButton) {
+        else if (event.getSource() == AnalyseButton) {
             if (lr.getAnzahlderPunkte() == 0) {
                 // Der Benutzer wurde aufgefordert, X- und Y-Werte einzugeben oder Daten aus einer CSV-Datei zu importieren.
                 JOptionPane.showMessageDialog(null, "Sie müssen zuerst X- und Y-Werte eingeben oder Daten aus einer CSV-Datei importieren.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
@@ -172,25 +210,24 @@ public class GUI extends JFrame implements ActionListener {
                     // Eine Analyseoption wurde ausgewählt
                     if (inputWert == 0) {
                         // Berechnung und Anzeigen des RSquared-Wertes
-                        ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.RSquaredBerechnen()));
+                        ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.BerechnenRSquared()));
                     } else if (inputWert == 1) {
                         // Berechnung und Anzeigen der Rangkorrelation
-                        double rangKorrelation = lr.RangkorrelationBerechnen();
+                        double rangKorrelation = lr.BerechnenRangkorrelation();
                         punktenListe.append("\n" + "Ränge von Daten:" + "\n");
                         for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
-                            punktenListe.append(lr.getXRank(i) + ", " + lr.getYRank(i) + "\n");
+                            punktenListe.append(lr.getXRang(i) + ", " + lr.getYRang(i) + "\n");
                         }
-                        lr.BerechnenRegressionskoeffizienten(true);
-                        ergebnisBereich.setText(String.format("Regressionsgleichung mit Rang: y = %.2fx + %.2f", lr.getSteigungRang(), lr.getyAchsenabschnittRang()) + "\n" + "Rangkorrelation: " + rangKorrelation);
-                        lr.regressiongeradeZeichnen(true);
+                        ergebnisBereich.append(String.format("\n" + String.format("Rangkorrelation: %.6f", rangKorrelation)));
+                        lr.DarstellenRangdaten();
                     } else {
-                        // Durchführung von Monte Carlo Simulation und Anzeigen des Ergebnisses
+                        // Durchführung von Monte Carlo Simulation für Daten von Renditen und Anzeigen des Ergebnisses
                         int iterationen = -1;
                         double betrag = -1.0;
                         int investitionZeitraum = -1;
 
                         while (true) {
-                            String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden? (z.B. 10)");
+                            String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden? (Zahlen z.B. 10)");
                             if (inputWert1 == null) {
                                 // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                                 return;
@@ -205,7 +242,7 @@ public class GUI extends JFrame implements ActionListener {
                         }
 
                         while (true) {
-                            String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag (z.B. 1000):");
+                            String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag (Zahlen z.B. 1000):");
                             if (inputWert2 == null) {
                                 // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                                 return;
@@ -234,18 +271,20 @@ public class GUI extends JFrame implements ActionListener {
                             }
                         }
 
+                        lr.BerechnenKoeffizienten();
                         MonteCarloSimulationRendite mcl_rendite = new MonteCarloSimulationRendite();
-                        lr.BerechnenRegressionskoeffizienten(false);
-                        ergebnisBereich.append("\n" + String.format("Portfolio in %d Tagen: %.6f", investitionZeitraum, mcl_rendite.PortfolioswertBerechnen(lr, iterationen, betrag, investitionZeitraum)));
+                        double Portfolioswert = mcl_rendite.BerechnenPortfolioswert(lr, iterationen, betrag, investitionZeitraum);
+                        ergebnisBereich.append("\n" + String.format("Portfolio in %d Tagen: %.6f", investitionZeitraum, Portfolioswert));
                     }
                 }
             }
+        }
 
-        } else if (event.getSource() == MCLWürfelButton) {
+        else if (event.getSource() == MCLWürfelButton) {
             String inputWert;
             int anzahlWurfe;
             while (true) {
-                inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden? (Integer: z.B. 1)");
+                inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden? (Zahlen: z.B. 1)");
                 if (inputWert != null) { // Überprüfen, ob der Benutzer "Cancel" ausgewählt hat
                     if (!inputWert.isEmpty()) {
                         try {
@@ -276,45 +315,6 @@ public class GUI extends JFrame implements ActionListener {
             }
             mcl_wuerfel.ergebnisDarstellen();
 
-        } else if (event.getSource() == addButton) {
-            // Hinzufügung und Anzeigen der Datenpunkte in der GUI, wenn X-Wert und Y-Wert nicht leer sind
-            String xEingabe = xFeld.getText().trim();
-            String yEingabe = yFeld.getText().trim();
-
-            if (!xEingabe.isEmpty() && !yEingabe.isEmpty()) {
-                try {
-                    double xWert = Double.parseDouble(xEingabe);
-                    double yWert = Double.parseDouble(yEingabe);
-                    lr.AddPunkte(xWert, yWert);
-                    punktenListe.append(xWert + ", " + yWert + "\n");
-                    xFeld.setText("");
-                    yFeld.setText("");
-                } catch (NumberFormatException e) {
-                    // Wenn keine Zahl eingegeben wurde, wird eine Fehlermeldung angezeigt
-                    JOptionPane.showMessageDialog(null, "Sie haben keine gültige Zahl eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
-                }
-
-            } else {
-                // Wenn X-Wert oder Y-Wert leer sind, wird ein Hinweis angezeigt
-                JOptionPane.showMessageDialog(null, "X-Wert und Y-Wert dürfen nicht leer sein.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        } else if (event.getSource() == loschenButton) {
-            // Löschung aller Daten
-            lr.PunkteLoeschen();
-            punktenListe.setText("");
-            ergebnisBereich.setText("");
-
-        } else if (event.getSource() == berechnenButton) {
-            if (lr.getAnzahlderPunkte() == 0) {
-                // Der Benutzer wurde aufgefordert, X- und Y-Werte einzugeben oder Daten aus einer CSV-Datei zu importieren.
-                JOptionPane.showMessageDialog(null, "Sie müssen zuerst X- und Y-Werte eingeben oder Daten aus einer CSV-Datei importieren.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // Berechnung der Regressionskoeffizienten und Zeichnung der Regressionsgerade
-                lr.BerechnenRegressionskoeffizienten(false);
-                ergebnisBereich.setText(String.format("Regressionsgleichung: y = %.2fx + %.2f", lr.getSteigung(), lr.getyAchsenabschnitt()));
-                lr.regressiongeradeZeichnen(false);
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +11,7 @@ class LinearRegressionTest {
         regression.AddPunkte(1.0, 2.0);
         regression.AddPunkte(2.0, 4.0);
         regression.AddPunkte(3.0, 6.0);
+        regression.BerechnenKoeffizienten();
         assertEquals(2.0, regression.getSteigung(), 0.001);
         assertEquals(0.0, regression.getyAchsenabschnitt(), 0.001);
     }
@@ -21,8 +22,8 @@ class LinearRegressionTest {
         regression.AddPunkte(1.0, 2.0);
         regression.AddPunkte(2.0, 4.0);
         regression.AddPunkte(3.0, 6.0);
-        regression.BerechnenRegressionskoeffizienten(false);
-        double rSquared = regression.RSquaredBerechnen();
+        regression.BerechnenKoeffizienten();
+        double rSquared = regression.BerechnenRSquared();
         assertEquals(1.0, rSquared, 0.001);
     }
 
@@ -32,7 +33,7 @@ class LinearRegressionTest {
         regression.AddPunkte(1.0, 2.0);
         regression.AddPunkte(2.0, 4.0);
         regression.AddPunkte(3.0, 6.0);
-        double rangCorrelation = regression.RangkorrelationBerechnen();
+        double rangCorrelation = regression.BerechnenRangkorrelation();
         assertEquals(1.0, rangCorrelation, 0.001);
     }
 }

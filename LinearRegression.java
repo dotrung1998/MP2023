@@ -192,7 +192,3 @@ public class LinearRegression {
         plotter.setYrange(0,yRang.size());
     }
 }
-
-
-
-

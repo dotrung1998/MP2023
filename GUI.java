@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ public class GUI extends JFrame implements ActionListener {
     private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, AnalyseButton, MCLWürfelButton;
     private JTextArea punktenListe, ergebnisBereich;
     private LinearRegression lr;
-    private Importdaten importdaten;
+    private ImportDaten importdaten;
     private JFrame rahmen;
 
     public GUI() {
@@ -186,7 +186,7 @@ public class GUI extends JFrame implements ActionListener {
                 }
             }
 
-            importdaten = new Importdaten(pfad.replace("\\", "/"), spalte1, spalte2);
+            importdaten = new ImportDaten(pfad.replace("\\", "/"), spalte1, spalte2);
             importdaten.AddDatenAusCSV(lr);
 
             // Anzeigen der Datenpunkte in der GUI

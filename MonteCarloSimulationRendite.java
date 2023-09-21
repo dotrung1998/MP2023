@@ -1,4 +1,4 @@
-package MainPorjekt;
+package MainProjekt;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package MainProjekt;
+package MainPorjekt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ public class GUI extends JFrame implements ActionListener {
     private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, AnalyseButton, MCLWürfelButton;
     private JTextArea punktenListe, ergebnisBereich;
     private LinearRegression lr;
-    private ImportDaten importdaten;
+    private Importdaten importdaten;
     private JFrame rahmen;
 
     public GUI() {
@@ -186,7 +186,7 @@ public class GUI extends JFrame implements ActionListener {
                 }
             }
 
-            importdaten = new ImportDaten(pfad.replace("\\", "/"), spalte1, spalte2);
+            importdaten = new Importdaten(pfad.replace("\\", "/"), spalte1, spalte2);
             importdaten.AddDatenAusCSV(lr);
 
             // Anzeigen der Datenpunkte in der GUI
@@ -227,7 +227,7 @@ public class GUI extends JFrame implements ActionListener {
                         int investitionZeitraum = -1;
 
                         while (true) {
-                            String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden? (Zahlen z.B. 10)");
+                            String inputWert1 = JOptionPane.showInputDialog("Wie viele Iterationen sollen durchgeführt werden? (z.B. 10)");
                             if (inputWert1 == null) {
                                 // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                                 return;
@@ -242,7 +242,7 @@ public class GUI extends JFrame implements ActionListener {
                         }
 
                         while (true) {
-                            String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag (Zahlen z.B. 1000):");
+                            String inputWert2 = JOptionPane.showInputDialog("Investitionsbetrag (z.B. 1000):");
                             if (inputWert2 == null) {
                                 // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                                 return;
@@ -284,7 +284,7 @@ public class GUI extends JFrame implements ActionListener {
             String inputWert;
             int anzahlWurfe;
             while (true) {
-                inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden? (Zahlen: z.B. 1)");
+                inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden? (Integer: z.B. 1)");
                 if (inputWert != null) { // Überprüfen, ob der Benutzer "Cancel" ausgewählt hat
                     if (!inputWert.isEmpty()) {
                         try {

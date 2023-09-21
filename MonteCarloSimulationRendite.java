@@ -1,4 +1,4 @@
-package MainProjekt;
+package MainPorjekt;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MonteCarloSimulationRendite {
             portfolio = betrag;
             for (int a = 0; a<yWertZufall.size();a++){
                 portfolioVerlauf[a] = portfolio;
-                portfolio += portfolio*yWertZufall.get(a)/100;
+                portfolio *= 1+yWertZufall.get(a);
             }
 
             portfolioSumme += portfolio;
@@ -51,25 +51,26 @@ public class MonteCarloSimulationRendite {
             for (int x = 0; x < zeitraum; x++) {
                 plotter.add(x, portfolioVerlauf[x]);
                 plotter.setDataColor(grafikFarben[farbe%10]);
-                plotter.setYLabelFormat("%.2f");
-                //plotter.setAutoYgrid((0.5));
+                plotter.setXLabelFormat("%.0f");
+                plotter.setYLabelFormat("%.0f");
+                plotter.setAutoXgrid(zeitraum/10);
+                plotter.setAutoYgrid(betrag/10);
             }
             plotter.nextDataSet();
             farbe++;
 
         }
-
         return portfolioSumme/numIterations;
     }
 
     public double ErwartungswertRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
-        double summe = 0.0;
+        double summe = 1.0;
 
         for (int i = 0; i<anzahlPunkte; i++){
             summe *= 1 + lr.getXWert(i);
         }
-        double erwartungswert = Math.pow(summe,1/anzahlPunkte)-1 ;
+        double erwartungswert = Math.pow(summe,1/(anzahlPunkte*1.0))-1 ;
         return erwartungswert;
     }
 

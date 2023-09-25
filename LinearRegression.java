@@ -13,15 +13,13 @@ public class LinearRegression {
     private ArrayList<Double> yWert;
     private double steigung;
     private double yAchsenabschnitt;
-    private ArrayList<Integer> xRang;
-    private ArrayList<Integer> yRang;
 
     public LinearRegression() {
         xWert = new ArrayList<Double>();
         yWert = new ArrayList<Double>();
-        xRang = new ArrayList<Integer>();
-        yRang = new ArrayList<Integer>();
     }
+    public ArrayList<Double> getxWert(){ return this.xWert; }
+    public ArrayList<Double> getyWert(){ return this.yWert; }
 
     public double getXWert(int i){
         return xWert.get(i);
@@ -34,9 +32,6 @@ public class LinearRegression {
     public int getAnzahlderPunkte(){
         return xWert.size();
     }
-    public int getXRang(int i){ return xRang.get(i); }
-
-    public int getYRang(int i){ return yRang.get(i); }
     public double getSteigung() { return this.steigung; }
 
     public double getyAchsenabschnitt() { return this.yAchsenabschnitt; }
@@ -130,65 +125,5 @@ public class LinearRegression {
         plotter.setXLabelFormat("%.2f");
         plotter.setAutoXgrid((xMax - xMin) * 0.2);
 
-    }
-
-    // Rangkorrelation //
-    public double BerechnenRangkorrelation() {
-        int n = xWert.size();
-
-        // Ranglisten für x und y erstellen
-        xRang = BerechnenRang(xWert);
-        yRang = BerechnenRang(yWert);
-
-        // Die Differenzen zwischen den Ranglisten berechnen
-        ArrayList<Integer> rangDifferenzen = new ArrayList<Integer>();
-        for (int i = 0; i < n; i++) {
-            rangDifferenzen.add(xRang.get(i) - yRang.get(i));
-        }
-
-        // Der Rangkorrelationskoeffizienten berechnen
-        double summeRangDifferenzQuadrat = 0.0;
-        for (Integer diff : rangDifferenzen) {
-            summeRangDifferenzQuadrat += Math.pow(diff, 2);
-        }
-
-        double rangKorrelation = 1 - (6 * summeRangDifferenzQuadrat) / (n * (n * n - 1));
-        return rangKorrelation;
-    }
-
-    private ArrayList<Integer> BerechnenRang(ArrayList<Double> values) {
-        // Die Werte in ein neues ArrayList kopieren, um die Originalreihenfolge beizubehalten
-        ArrayList<Double> sortedValues = new ArrayList<Double>(values);
-
-        // Die Werte in aufsteigender Reihenfolge sortieren
-        Collections.sort(sortedValues);
-
-        // Eine Liste für die Ränge erstellen
-        ArrayList<Integer> rang = new ArrayList<Integer>();
-
-        // Die Werte der Ränge zuordnen
-        for (Double value : values) {
-            int index = sortedValues.indexOf(value);
-            rang.add(index + 1);
-        }
-        return rang;
-    }
-
-    public void DarstellenRangdaten(){
-        Graphic graph = new Graphic("Rangdaten");
-        Plotter plotter = graph.getPlotter();
-        int i = 0;
-
-        while (i < xRang.size()) {
-            plotter.add(xRang.get(i), yRang.get(i));
-            plotter.addDataLineStyle(LineStyle.FILLED_SYMBOL);
-            plotter.setSymbolSize(6);
-            plotter.setDataColor(Color.LIGHT_GRAY);
-            i++;
-        }
-        plotter.setAutoYgrid(xRang.size()/10);
-        plotter.setAutoXgrid(yRang.size()/10);
-        plotter.setXrange(0,xRang.size());
-        plotter.setYrange(0,yRang.size());
     }
 }

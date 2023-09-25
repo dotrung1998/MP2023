@@ -16,7 +16,7 @@ public class MonteCarloSimulationRendite {
         yWertZufall = new ArrayList<Double>();
     }
 
-    public double BerechnenPortfolioswert(LinearRegression lr, int numIterations,double betrag, int zeitraum){
+    public double BerechnenPortfolioswert(LinearRegression lr, int iterationen,double betrag, int zeitraum){
         Graphic graph = new Graphic("Portfolio Verlauf");
         Plotter plotter = graph.getPlotter();
 
@@ -28,7 +28,7 @@ public class MonteCarloSimulationRendite {
         int farbe = 0;
         Color[] grafikFarben = {Color.RED,Color.BLACK,Color.BLUE,Color.CYAN,Color.PINK,Color.GREEN,Color.YELLOW,Color.ORANGE, Color.DARK_GRAY,Color.MAGENTA};
 
-        for (int i = 0; i<numIterations;i++){
+        for (int i = 0; i<iterationen;i++){
             xWertZufall.clear();
             yWertZufall.clear();
 
@@ -60,10 +60,10 @@ public class MonteCarloSimulationRendite {
             farbe++;
 
         }
-        return portfolioSumme/numIterations;
+        return portfolioSumme/iterationen;
     }
 
-    public double ErwartungswertRendite(LinearRegression lr) {
+    private double ErwartungswertRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
         double summe = 1.0;
 
@@ -74,7 +74,7 @@ public class MonteCarloSimulationRendite {
         return erwartungswert;
     }
 
-    public double StandardabweichungRendite(LinearRegression lr) {
+    private double StandardabweichungRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
         double residuen = 0.0;
         double quadratsumme =0.0;

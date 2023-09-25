@@ -12,17 +12,17 @@ public class MonteCarloSimulationWurfel {
 
     private double[] haufigkeit = new double[11];
 
-    Random random = new Random();
+    private Random random = new Random();
 
     public MonteCarloSimulationWurfel(int anzahlderWuerfe){
         this.anzahlderWuerfe = anzahlderWuerfe;
     }
 
-    public int getAnzahlderWuerfe(){
+    public int getAnzahlWuerfe(){
         return anzahlderWuerfe;
     }
 
-    public int[] wurfeln () {
+    public int[] Wurfeln() {
         for (int i = 0; i < anzahlderWuerfe; i++) {
             int wuerfel1 = random.nextInt(6) + 1;
             int wuerfel2 = random.nextInt(6) + 1;
@@ -33,7 +33,7 @@ public class MonteCarloSimulationWurfel {
         return ergebnis;
     }
 
-    public double[] ergebnisVerteilung(){
+    public double[] ErgebnisVerteilung(){
         for (int i = 0; i < 11; i++){
             int sum = i + 2;
             haufigkeit[i] = (double) ergebnis[i] / anzahlderWuerfe;
@@ -41,7 +41,7 @@ public class MonteCarloSimulationWurfel {
         return haufigkeit;
     }
 
-    public void ergebnisDarstellen(){
+    public void ErgebnisDarstellung(){
         Graphic graph = new Graphic("Häufigkeitsdarstellung");
         Plotter plotter = graph.getPlotter();
 

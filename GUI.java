@@ -9,7 +9,7 @@ import java.io.File;
 public class GUI extends JFrame implements ActionListener {
 
     private JTextField xFeld, yFeld;
-    private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, AnalyseButton, MCLWürfelButton;
+    private JButton addButton, loschenButton, berechnenButton, addDatenAusCSVButton, analyseButton, mclWuerfelButton;
     private JTextArea punktenListe, ergebnisBereich;
     private LinearRegression lr;
     private ImportDaten importdaten;
@@ -39,8 +39,8 @@ public class GUI extends JFrame implements ActionListener {
         berechnenButton = new JButton("Berechnen");
         berechnenButton.setBackground(Color.PINK);
         addDatenAusCSVButton = new JButton("CSV Daten");
-        AnalyseButton =new JButton("Analysieren");
-        MCLWürfelButton = new JButton("Monte Carlo Simulation");
+        analyseButton =new JButton("Analysieren");
+        mclWuerfelButton = new JButton("Monte Carlo Simulation");
 
         punktenListe = new JTextArea();
         punktenListe.setEditable(false);
@@ -59,8 +59,8 @@ public class GUI extends JFrame implements ActionListener {
         buttonPanel.add(loschenButton);
         buttonPanel.add(berechnenButton);
         buttonPanel.add(addDatenAusCSVButton);
-        buttonPanel.add(AnalyseButton);
-        buttonPanel.add(MCLWürfelButton);
+        buttonPanel.add(analyseButton);
+        buttonPanel.add(mclWuerfelButton);
 
 
         JPanel outputPanel = new JPanel(new GridLayout(2, 1));
@@ -81,8 +81,8 @@ public class GUI extends JFrame implements ActionListener {
         loschenButton.addActionListener(this);
         berechnenButton.addActionListener(this);
         addDatenAusCSVButton.addActionListener(this);
-        AnalyseButton.addActionListener(this);
-        MCLWürfelButton.addActionListener(this);
+        analyseButton.addActionListener(this);
+        mclWuerfelButton.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -196,7 +196,7 @@ public class GUI extends JFrame implements ActionListener {
             }
         }
 
-        else if (event.getSource() == AnalyseButton) {
+        else if (event.getSource() == analyseButton) {
             if (lr.getAnzahlderPunkte() == 0) {
                 // Der Benutzer wurde aufgefordert, X- und Y-Werte einzugeben oder Daten aus einer CSV-Datei zu importieren.
                 JOptionPane.showMessageDialog(null, "Sie müssen zuerst X- und Y-Werte eingeben oder Daten aus einer CSV-Datei importieren.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
@@ -213,13 +213,14 @@ public class GUI extends JFrame implements ActionListener {
                         ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.BerechnenRSquared()));
                     } else if (inputWert == 1) {
                         // Berechnung und Anzeigen der Rangkorrelation
-                        double rangKorrelation = lr.BerechnenRangkorrelation();
+                        Rangkorrelation rang = new Rangkorrelation();
+                        double rangKorrelation = rang.BerechnenRangkorrelation(lr);
                         punktenListe.append("\n" + "Ränge von Daten:" + "\n");
                         for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
-                            punktenListe.append(lr.getXRang(i) + ", " + lr.getYRang(i) + "\n");
+                            punktenListe.append(rang.getXRang(i) + ", " + rang.getYRang(i) + "\n");
                         }
                         ergebnisBereich.append(String.format("\n" + String.format("Rangkorrelation: %.6f", rangKorrelation)));
-                        lr.DarstellenRangdaten();
+                        rang.DarstellenRangdaten();
                     } else {
                         // Durchführung von Monte Carlo Simulation für Daten von Renditen und Anzeigen des Ergebnisses
                         int iterationen = -1;
@@ -280,7 +281,7 @@ public class GUI extends JFrame implements ActionListener {
             }
         }
 
-        else if (event.getSource() == MCLWürfelButton) {
+        else if (event.getSource() == mclWuerfelButton) {
             String inputWert;
             int anzahlWurfe;
             while (true) {
@@ -306,14 +307,14 @@ public class GUI extends JFrame implements ActionListener {
 
             // Hier können Sie die Variable 'anzahlWurfe' verwenden, die die gültige Anzahl von Würfen enthält
             MonteCarloSimulationWurfel mcl_wuerfel = new MonteCarloSimulationWurfel(anzahlWurfe);
-            int[] result = mcl_wuerfel.wurfeln();
-            double[] haufigkeit = mcl_wuerfel.ergebnisVerteilung();
+            int[] result = mcl_wuerfel.Wurfeln();
+            double[] haufigkeit = mcl_wuerfel.ErgebnisVerteilung();
 
             punktenListe.setText("");
             for (int i = 0; i < 11; i++) {
                 punktenListe.append(String.format("Summe %d entstand %d Mal -> Häufigkeit: %.3f", i + 2, result[i], haufigkeit[i]) + "\n");
             }
-            mcl_wuerfel.ergebnisDarstellen();
+            mcl_wuerfel.ErgebnisDarstellung();
 
         }
     }

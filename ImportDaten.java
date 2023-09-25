@@ -19,7 +19,7 @@ public class ImportDaten {
         this.spalte2 = spalte2;
     }
 
-    public void AddDatenAusCSV(LinearRegression linearRegression) {
+    public void AddDatenAusCSV(LinearRegression lr) {
         String zeile = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(pfad));
@@ -27,7 +27,7 @@ public class ImportDaten {
 
             while ((zeile = br.readLine()) != null) {
                 String[] values = zeile.split(",");
-                linearRegression.AddPunkte(Double.parseDouble(values[spalte1 -1]),Double.parseDouble(values[spalte2 -1]));
+                lr.AddPunkte(Double.parseDouble(values[spalte1 -1]),Double.parseDouble(values[spalte2 -1]));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

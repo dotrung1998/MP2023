@@ -8,7 +8,7 @@ class JUnitTest {
 
     // Test Klasse LinearRegression
     @Test
-    public void testKoeffizientenBerechnung() {
+    public void testBerechnenKoeffizient() {
         LinearRegression regression = new LinearRegression();
         regression.AddPunkte(1.0, 2.0);
         regression.AddPunkte(2.0, 4.0);

@@ -203,7 +203,7 @@ public class GUI extends JFrame implements ActionListener {
             } else {
                 // Hier können Sie die Analyse durchführen, da gültige Daten vorhanden sind
 
-                String[] optionen = { "RSquared", "Rangkorrelation", "MonteCarloSimulation" };
+                String[] optionen = { "RSquared", "Korrelation", "Renditevorhersage" };
                 int inputWert = JOptionPane.showOptionDialog(null, "Wählen Sie eine Option zur Analyse", "Analysieren", 0, 3, null, optionen, optionen[0]);
 
                 if (inputWert >= 0) {
@@ -212,15 +212,21 @@ public class GUI extends JFrame implements ActionListener {
                         // Berechnung und Anzeigen des RSquared-Wertes
                         ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.BerechnenRSquared()));
                     } else if (inputWert == 1) {
-                        // Berechnung und Anzeigen der Rangkorrelation
-                        Korrelation rang = new Korrelation();
-                        double rangKorrelation = rang.BerechnenRangkorrelation(lr);
+                        // Berechnung der Rangkorrelation und Pearson Korrelation
+                        Korrelation korrelation = new Korrelation();
+                        double pearsonKorrelation = korrelation.BerechnenPearsonKorrelation(lr);
+                        double rangKorrelation = korrelation.BerechnenRangkorrelation(lr);
+
+                        // Anzeigen der Ränge von Daten in der Punkten-Liste
                         punktenListe.append("\n" + "Ränge von Daten:" + "\n");
                         for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {
-                            punktenListe.append(rang.getXRang(i) + ", " + rang.getYRang(i) + "\n");
+                            punktenListe.append(korrelation.getXRang(i) + ", " + korrelation.getYRang(i) + "\n");
                         }
+
+                        // Anzeigen der beiden Korrelationen im Ergebnisbereich
+                        ergebnisBereich.append(String.format("\n" + String.format("Pearson Korrelation: %.6f", pearsonKorrelation)));
                         ergebnisBereich.append(String.format("\n" + String.format("Rangkorrelation: %.6f", rangKorrelation)));
-                        rang.DarstellenRangdaten();
+                        korrelation.DarstellenRangdaten();
                     } else {
                         // Durchführung von Monte Carlo Simulation für Daten von Renditen und Anzeigen des Ergebnisses
                         int iterationen = -1;

@@ -58,7 +58,7 @@ public class LinearRegression {
         }
         double xMittelwert = xWertSumme / anzahlPunkte;
         double yMittelwert = yWertSumme / anzahlPunkte;
-        this.steigung = (anzahlPunkte * xySumme - xWertSumme * yWertSumme) / (anzahlPunkte * xWertQuadratSumme - xWertSumme * xWertSumme);
+        this.steigung = (xySumme - anzahlPunkte * xMittelwert * yMittelwert) / (xWertQuadratSumme - anzahlPunkte * xMittelwert*xMittelwert);
         this.yAchsenabschnitt = yMittelwert - steigung * xMittelwert;
     }
 

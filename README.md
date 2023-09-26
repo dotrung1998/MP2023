@@ -1,4 +1,3 @@
-# Mathematische-Programmierung
 # Java-Projekt: Datenanalyse durch Lineare Regression und Monte-Carlo-Simulation
 
 ## Beschreibung
@@ -35,15 +34,15 @@ Grundlegende Kenntnisse in Java-Programmierung.
 
 ## GUI-Schaltflächen
 In der grafischen Benutzeroberfläche (GUI) der Anwendung finden Sie verschiedene Schaltflächen, die Ihnen ermöglichen, die mathematischen Konzepte und Anwendungsbeispiele zu nutzen. Hier ist eine kurze Beschreibung der wichtigsten Schaltflächen:
--	**Hinzufügen**:  Durch diese Schaltfläche werden einzelne Datenpunkte hinzufügen.
--	**Importieren**: Diese Schaltfläche ermöglicht das Laden von Daten, um bereits vorhandene Daten in die Anwendung zu importieren.
--	**Leeren**: Dieser Button löscht alle aktuellen Eingaben und Berechnungen, um einen neuen Vorgang zu starten.
--	**Berechnen**: Diese Schaltfläche startet die Berechnung und Visualisierung der linearen Regressionsgleichung. 
--	**Monte Carlo Simulation**: Bei Auswahl dieser Schaltfläche können Sie die Monte-Carlo-Simulation mit dem angegebenen Parameter (Anzahl der Würfe) starten, um die Häufigkeit von Würfelergebnisse zu berechnen und zu visualisieren.
--	**Analysieren**: Durch Klicken auf diese Schaltfläche öffnen sich drei weitere Schaltflächen, die zur Analyse von Daten dienen. Je nach dem, welche Datenkategorie ausgewählt ist, können die folgenden Optionen zur Verfügung stehen:
--	**R-Quadrat-Wert**: Wenn Sie diese Option auswählen, wird der R-Quadrat-Wert für die ausgewählten Daten berechnet und angezeigt.
--	**Korrelation**: Mit dieser Option können Sie die Korrelation zwischen den Daten analysieren und visualisieren, um Zusammenhänge zu erkennen.
--	**Monte-Carlo-Simulation (nur für Renditendaten)**: Falls Renditendaten ausgewählt sind, steht diese Option zur Verfügung. Sie ermöglicht es, die Daten mithilfe einer Monte-Carlo-Simulation zu analysieren und zukünftige Entwicklungen vorherzusagen.
+-	**Hinzufügen:**  Durch diese Schaltfläche werden einzelne Datenpunkte hinzufügen.
+-	**Importieren:** Diese Schaltfläche ermöglicht das Laden von Daten, um bereits vorhandene Daten in die Anwendung zu importieren.
+-	**Leeren:** Dieser Button löscht alle aktuellen Eingaben und Berechnungen, um einen neuen Vorgang zu starten.
+-	**Berechnen:** Diese Schaltfläche startet die Berechnung und Visualisierung der linearen Regressionsgleichung. 
+-	**Monte Carlo Simulation:** Bei Auswahl dieser Schaltfläche können Sie die Monte-Carlo-Simulation mit dem angegebenen Parameter (Anzahl der Würfe) starten, um die Häufigkeit von Würfelergebnisse zu berechnen und zu visualisieren.
+-	**Analysieren:** Durch Klicken auf diese Schaltfläche öffnen sich drei weitere Schaltflächen, die zur Analyse von Daten dienen. Je nach dem, welche Datenkategorie ausgewählt ist, können die folgenden Optionen zur Verfügung stehen:
+-	**R-Quadrat-Wert:** Wenn Sie diese Option auswählen, wird der R-Quadrat-Wert für die ausgewählten Daten berechnet und angezeigt.
+-	**Korrelation:** Mit dieser Option können Sie die Korrelation zwischen den Daten analysieren und visualisieren, um Zusammenhänge zu erkennen.
+-	**Monte-Carlo-Simulation (nur für Renditendaten):** Falls Renditendaten ausgewählt sind, steht diese Option zur Verfügung. Sie ermöglicht es, die Daten mithilfe einer Monte-Carlo-Simulation zu analysieren und zukünftige Entwicklungen vorherzusagen.
 
 ## Beispiel
 Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:

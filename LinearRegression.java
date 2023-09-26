@@ -6,7 +6,6 @@ import plotter.Plotter;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class LinearRegression {
     private ArrayList<Double> xWert;

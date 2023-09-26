@@ -213,7 +213,7 @@ public class GUI extends JFrame implements ActionListener {
                         ergebnisBereich.append("\n" + String.format("RSquared: %.6f", lr.BerechnenRSquared()));
                     } else if (inputWert == 1) {
                         // Berechnung und Anzeigen der Rangkorrelation
-                        Rangkorrelation rang = new Rangkorrelation();
+                        Korrelation rang = new Korrelation();
                         double rangKorrelation = rang.BerechnenRangkorrelation(lr);
                         punktenListe.append("\n" + "Ränge von Daten:" + "\n");
                         for (int i = 0; i < lr.getAnzahlderPunkte(); i++) {

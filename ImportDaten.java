@@ -23,7 +23,7 @@ public class ImportDaten {
         String zeile = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(pfad));
-            br.readLine();
+            br.readLine();  // Überspringen die Titelzeile
 
             while ((zeile = br.readLine()) != null) {
                 String[] values = zeile.split(",");

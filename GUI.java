@@ -1,3 +1,9 @@
+/**
+ * @author Viet Quang Dang
+ * @author Nhu Phuong Nguyen
+ * @author The Trung Do
+ * @version
+ */
 package MainProjekt;
 
 import javax.swing.*;
@@ -6,6 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * Diese Klasse stellt eine grafische Benutzeroberfläche (GUI) für die Lineare Regression und Monte-Carlo-Simulationen dar.
+ * Sie ermöglicht das Hinzufügen von Datenpunkten, das Berechnen der linearen Regression, das Importieren von Daten aus einer CSV-Datei
+ * sowie verschiedene Analysen und Monte-Carlo-Simulationen.
+ */
 public class GUI extends JFrame implements ActionListener {
 
     private JTextField xFeld, yFeld;
@@ -15,6 +26,10 @@ public class GUI extends JFrame implements ActionListener {
     private ImportDaten importdaten;
     private JFrame rahmen;
 
+    /**
+     * Konstruktor für die GUI-Klasse.
+     * Initialisiert die GUI-Komponenten und die erforderlichen Listener.
+     */
     public GUI() {
 
         lr = new LinearRegression();
@@ -85,6 +100,11 @@ public class GUI extends JFrame implements ActionListener {
         mclWuerfelButton.addActionListener(this);
     }
 
+    /**
+     * Diese Methode wird aufgerufen, wenn ein GUI-Element (z.B. Button) angeklickt wird.
+     * Sie behandelt die entsprechenden Aktionen, je nachdem, welches Element ausgelöst wurde.
+     * @param event Das ausgelöste ActionEvent.
+     */
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == addButton) {
             // Hinzufügung und Anzeigen der Datenpunkte in der GUI, wenn X-Wert und Y-Wert nicht leer sind

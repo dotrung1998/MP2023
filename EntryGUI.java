@@ -1,3 +1,9 @@
+/**
+ * @author Viet Quang Dang
+ * @author Nhu Phuong Nguyen
+ * @author The Trung Do
+ * @version
+ */
 package MainProjekt;
 
 public class EntryGUI {

@@ -46,10 +46,10 @@ In der grafischen Benutzeroberfläche (GUI) der Anwendung finden Sie verschieden
 
 ## Beispiel
 Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:
-1.	Monte-Carlo-Simulation mit Würfeln
+### Monte-Carlo-Simulation mit Würfeln
 -	Öffne das Projekt in Ihrer IDE.
 -	Klicke auf der Schaltfläche „Monte Carlo Simulation“ und gebe die Anzahl der Würfe ein
-2.	Vorhersage von Aktienrenditen
+### Vorhersage von Aktienrenditen
 -	Bereite die Aktiendaten vor, indem CSV-Datei importiert wird.
 -	Implementiere die lineare Regression und die Berechnung des R-Quadrat-Werts für die Daten.
 -	Führen Sie die Korrelationsanalyse für die Daten durch, um die Genauigkeit des Datenzusammenhang sicherzustellen.

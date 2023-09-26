@@ -1,21 +1,44 @@
+/**
+ * @author Viet Quang Dang
+ * @author Nhu Phuong Nguyen
+ * @author The Trung Do
+ * @version
+ */
 package MainProjekt;
+
+import plotter.Graphic;
+import plotter.Plotter;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-import plotter.Graphic;
-import plotter.Plotter;
 
+/**
+ * Diese Klasse stellt eine Monte-Carlo-Simulation für die Berechnung des Portfoliowerts dar.
+ * Sie verwendet eine lineare Regression, um zufällige Renditen zu generieren und den Portfoliowert über einen Zeitraum zu verfolgen.
+ */
 public class MonteCarloSimulationRendite {
     private ArrayList<Double> xWertZufall;
     private ArrayList<Double> yWertZufall;
     private Random randomWert;
 
+    /**
+     * Konstruktor für die MonteCarloSimulationRendite-Klasse.
+     * Initialisiert die ArrayLists für zufällige Werte.
+     */
     public MonteCarloSimulationRendite() {
         xWertZufall = new ArrayList<Double>();
         yWertZufall = new ArrayList<Double>();
     }
 
+    /**
+     * Berechnet den Portfoliowert über einen Zeitraum unter Verwendung einer Monte-Carlo-Simulation.
+     * @param lr Die lineare Regression, die zur Generierung von Renditen verwendet wird.
+     * @param iterationen Die Anzahl der Iterationen für die Simulation.
+     * @param betrag Der Startbetrag des Portfolios.
+     * @param zeitraum Die Anzahl der Tage, für die der Portfoliowert verfolgt wird.
+     * @return Der durchschnittliche Portfoliowert über alle Iterationen.
+     */
     public double BerechnenPortfolioswert(LinearRegression lr, int iterationen,double betrag, int zeitraum){
         Graphic graph = new Graphic("Portfolio Verlauf");
         Plotter plotter = graph.getPlotter();
@@ -63,6 +86,11 @@ public class MonteCarloSimulationRendite {
         return portfolioSumme/iterationen;
     }
 
+    /**
+     * Berechnet den Erwartungswert der Rendite basierend auf der linearen Regression.
+     * @param lr Die lineare Regression, für die der Erwartungswert berechnet werden soll.
+     * @return Der Erwartungswert der Rendite.
+     */
     private double ErwartungswertRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
         double summe = 1.0;
@@ -74,6 +102,11 @@ public class MonteCarloSimulationRendite {
         return erwartungswert;
     }
 
+    /**
+     * Berechnet die Standardabweichung der Rendite basierend auf der linearen Regression.
+     * @param lr Die lineare Regression, für die die Standardabweichung berechnet werden soll.
+     * @return Die Standardabweichung der Rendite.
+     */
     private double StandardabweichungRendite(LinearRegression lr) {
         int anzahlPunkte = lr.getAnzahlderPunkte();
         double residuen = 0.0;

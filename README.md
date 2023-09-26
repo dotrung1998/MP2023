@@ -60,7 +60,7 @@ Viet Quang Dang
 Nhu Phuong Nguyen
 The Trung Do
 Kontakt
-Bei Fragen oder Anregungen können Sie uns unter Dangvietquang2010@gmail.com oder Nhuphuong.ngn0604@gmail.com oder erreichen.
+Bei Fragen oder Anregungen können Sie uns unter dangvietquang2010@gmail.com oder nhuphuong.ngn0604@gmail.com oder dotrung1998@gmail.com erreichen.
 
 Dank
 Wir danken allen Open-Source-Projekten und -Bibliotheken, auf denen dieses Projekt aufbaut.

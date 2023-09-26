@@ -64,19 +64,21 @@ public class LinearRegression {
 
     public double BerechnenRSquared() {
         int anzahlPunkte = xWert.size();
-        double SQT = 0.0, yWertSumme = 0.0, SQR = 0.0;
-        // SQT: Summe der Quadrate der Totalabstände, misst die Gesamtvariation der abhängigen Variable (Y) in den Daten.
-        // SQR: Summe der quadrierten Regressionsabweichungen, misst die durch das lineare Regressionsmodell erklärte Variation der abhängigen Variable (Y).
+        double erklärteVariation = 0.0, Gesamtvariation = 0.0, yWertSumme = 0.0;
+        // erklärte Variation:
+        // Gesamtvariation: Summe der Quadrate der Totalabstände, misst die Gesamtvariation der abhängigen Variable (Y) in den Daten.
+
         for (int i = 0; i < anzahlPunkte; i++) {
-            double schaetzWert = this.getSteigung() * xWert.get(i) + this.getyAchsenabschnitt();
-            SQR += (yWert.get(i) - schaetzWert) * (yWert.get(i) - schaetzWert);
             yWertSumme += yWert.get(i);
         }
         double yMittelwert = yWertSumme / anzahlPunkte;
+
         for (int i = 0; i < anzahlPunkte; i++) {
-            SQT += (yWert.get(i) - yMittelwert) * (yWert.get(i) - yMittelwert);
+            double schaetzWert = this.getSteigung() * xWert.get(i) + this.getyAchsenabschnitt();
+            erklärteVariation += (schaetzWert - yMittelwert) * (schaetzWert - yMittelwert);
+            Gesamtvariation += (yWert.get(i) - yMittelwert) * (yWert.get(i) - yMittelwert);
         }
-        double rSquared = 1.0 - SQR / SQT;
+        double rSquared = erklärteVariation/Gesamtvariation;
         return rSquared;
     }
 

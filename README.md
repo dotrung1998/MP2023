@@ -42,7 +42,7 @@ In der grafischen Benutzeroberfläche (GUI) der Anwendung finden Sie verschieden
 -	**Analysieren:** Durch Klicken auf diese Schaltfläche öffnen sich drei weitere Schaltflächen, die zur Analyse von Daten dienen. Je nach dem, welche Datenkategorie ausgewählt ist, können die folgenden Optionen zur Verfügung stehen:
 -	**R-Quadrat-Wert:** Wenn Sie diese Option auswählen, wird der R-Quadrat-Wert für die ausgewählten Daten berechnet und angezeigt.
 -	**Korrelation:** Mit dieser Option können Sie die Korrelation zwischen den Daten analysieren und visualisieren, um Zusammenhänge zu erkennen.
--	**Monte-Carlo-Simulation (nur für Renditendaten):** Falls Renditendaten ausgewählt sind, steht diese Option zur Verfügung. Sie ermöglicht es, die Daten mithilfe einer Monte-Carlo-Simulation zu analysieren und zukünftige Entwicklungen vorherzusagen.
+-	**Renditevorhersage (nur für Renditendaten):** Falls Renditendaten ausgewählt sind, steht diese Option zur Verfügung. Sie ermöglicht es, die Daten mithilfe einer Monte-Carlo-Simulation zu analysieren und zukünftige Entwicklungen vorherzusagen.
 
 ## Beispiel
 Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:
@@ -53,7 +53,7 @@ Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:
 -	Bereite die Aktiendaten vor, indem CSV-Datei importiert wird.
 -	Implementiere die lineare Regression und die Berechnung des R-Quadrat-Werts für die Daten.
 -	Führen Sie die Korrelationsanalyse für die Daten durch, um die Genauigkeit des Datenzusammenhang sicherzustellen.
--	Falls der Zusammenhang zwischen den 2 Aktiendaten groß genug ist (R-Quadrat > , Korrelation > ), führe die Monte-Carlo-Simulation aus, um Aktienrenditen vorherzusagen und visualisieren Sie die Ergebnisse mithilfe der GUI.
+-	Falls der Zusammenhang zwischen den 2 Aktiendaten groß genug ist (R-Quadrat > , Korrelation > ), führe die Renditevorhersage aus, um Aktienrenditen vorherzusagen und visualisieren Sie die Ergebnisse mithilfe der GUI.
   
 ## Autoren
 Viet Quang Dang

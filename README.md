@@ -15,15 +15,15 @@ Die Ergebnisse dieser Analysen werden mithilfe einer grafischen Benutzeroberflä
 
 ## Voraussetzungen
 Um dieses Java-Projekt auszuführen, sind folgende Voraussetzungen erforderlich:
-Java Development Kit (JDK) (Version X.X.X)
-Integrierte Entwicklungsumgebung (IDE) für Java (z.B. IntelliJ IDEA, Eclipse)
-Die Java-Bibliotheken für GUI-Entwicklung (Plotter)
+Java Development Kit (JDK) (Version 1.8.0_201).
+Integrierte Entwicklungsumgebung (IDE) für Java (z.B. IntelliJ IDEA, Eclipse).
+Die Java-Bibliotheken für GUI-Entwicklung (Plotter).
 Grundlegende Kenntnisse in Java-Programmierung.
 
 ## Installation
-1.	Klonen oder laden Sie das Projekt von GitHub herunter:
+1.	Klonen oder laden Sie das Projekt von GitHub herunter.
 
-2.	Importiere das Projekt in deine bevorzugte Java-Entwicklungsumgebung (z.B. Eclipse, IntelliJ)
+2.	Importiere das Projekt in deine bevorzugte Java-Entwicklungsumgebung (z.B. Eclipse, IntelliJ).
 
 ## Verwendung
 1.	Öffne das Projekt in die Java-Entwicklungsumgebung.
@@ -48,7 +48,7 @@ In der grafischen Benutzeroberfläche (GUI) der Anwendung finden Sie verschieden
 Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:
 ### Monte-Carlo-Simulation mit Würfeln
 -	Öffne das Projekt in Ihrer IDE.
--	Klicke auf der Schaltfläche „Monte Carlo Simulation“ und gebe die Anzahl der Würfe ein
+-	Klicke auf der Schaltfläche „Monte Carlo Simulation“ und gebe die Anzahl der Würfe ein.
 ### Vorhersage von Aktienrenditen
 -	Bereite die Aktiendaten vor, indem CSV-Datei importiert wird.
 -	Implementiere die lineare Regression und die Berechnung des R-Quadrat-Werts für die Daten.
@@ -62,5 +62,5 @@ The Trung Do
 Kontakt
 Bei Fragen oder Anregungen können Sie uns unter dangvietquang2010@gmail.com oder nhuphuong.ngn0604@gmail.com oder dotrung1998@gmail.com erreichen.
 
-Dank
+## Dank
 Wir danken allen Open-Source-Projekten und -Bibliotheken, auf denen dieses Projekt aufbaut.

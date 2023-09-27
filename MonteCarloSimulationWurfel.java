@@ -78,13 +78,15 @@ public class MonteCarloSimulationWurfel {
         Plotter plotter = graph.getPlotter();
 
         for (int i=2; i<=12; i++){
-            plotter.add(i,ergebnis[i-2]);
+            plotter.add(i,haufigkeit[i-2]);
         }
         plotter.addDataLineStyle(LineStyle.HISTOGRAM);
 
         double[] xGrid = {2,3,4,5,6,7,8,9,10,11,12};
         plotter.setXrange(1,13);
         plotter.setXGrid(xGrid);
+        plotter.setYLabelFormat("%.2f");
+        plotter.setAutoYgrid(0.1);
 
     }
 }

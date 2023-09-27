@@ -8,9 +8,9 @@ Monte-Carlo-Simulation: Eine Technik zur Modellierung und Analyse von Unsicherhe
 Die Ergebnisse dieser Analysen werden mithilfe einer grafischen Benutzeroberfläche (GUI) anschaulich dargestellt.
 
 ## Features
--	Berechnung und Visualisierung der linearen Regressionsgleichung
--	Bestimmung der Häufigkeit von Würfelergebnissen in Bezug auf die Anzahl der Würfe durch die Verwendung einer Monte-Carlo-Simulation
--	Analyse der Daten mithilfe von R-Quadrat-Wert, Korrelationen
+-	Berechnung und Visualisierung der linearen Regressionsgleichung.
+-	Bestimmung der Häufigkeit von Würfelergebnissen in Bezug auf die Anzahl der Würfe durch die Verwendung einer Monte-Carlo-Simulation.
+-	Analyse der Daten mithilfe von R-Quadrat-Wert, Korrelationen.
 -	Analyse und Vorhersage der Renditendaten mithilfe von R-Quadrat-Wert, Korrelationen und Kombination aus linearer Regression und Monte-Carlo-Simulation.
 
 ## Voraussetzungen

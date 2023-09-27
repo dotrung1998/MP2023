@@ -56,10 +56,10 @@ Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:
 -	Falls der Zusammenhang zwischen den 2 Aktiendaten groß genug ist (R-Quadrat > , Korrelation > ), führe die Renditevorhersage aus, um Aktienrenditen vorherzusagen und visualisieren Sie die Ergebnisse mithilfe der GUI.
   
 ## Autoren
-- **Viet Quang Dang
-- **Nhu Phuong Nguyen
-- **The Trung Do
-- **Kontakt: Bei Fragen oder Anregungen können Sie uns unter dangvietquang2010@gmail.com oder nhuphuong.ngn0604@gmail.com oder dotrung1998@gmail.com erreichen.
+- Viet Quang Dang
+- Nhu Phuong Nguyen
+- The Trung Do
+- Kontakt: Bei Fragen oder Anregungen können Sie uns unter dangvietquang2010@gmail.com oder nhuphuong.ngn0604@gmail.com oder dotrung1998@gmail.com erreichen.
 
 ## Dank
 Wir danken allen Open-Source-Projekten und -Bibliotheken, auf denen dieses Projekt aufbaut.

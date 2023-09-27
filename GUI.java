@@ -177,7 +177,7 @@ public class GUI extends JFrame implements ActionListener {
             }
 
             while (true) {
-                String inputWert1 = JOptionPane.showInputDialog("Wählen Sie bitte die erste Spalte aus (Zahlen z.B.: 1):");
+                String inputWert1 = JOptionPane.showInputDialog("Wählen Sie bitte die erste Spalte aus (Zahlen z.B. 1):");
                 if (inputWert1 == null) {
                     // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                     return;
@@ -192,7 +192,7 @@ public class GUI extends JFrame implements ActionListener {
             }
 
             while (true) {
-                String inputWert2 = JOptionPane.showInputDialog("Wählen Sie bitte die zweite Spalte aus (Zahlen z.B.: 2):");
+                String inputWert2 = JOptionPane.showInputDialog("Wählen Sie bitte die zweite Spalte aus (Zahlen z.B. 2):");
                 if (inputWert2 == null) {
                     // Der Benutzer hat Abbrechen oder das Schließen-Symbol gewählt, daher wird nichts unternommen
                     return;

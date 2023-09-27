@@ -311,7 +311,7 @@ public class GUI extends JFrame implements ActionListener {
             String inputWert;
             int anzahlWurfe;
             while (true) {
-                inputWert = JOptionPane.showInputDialog("Wie oft sollte dieser Würfel geworfen werden? (Zahlen: z.B. 1)");
+                inputWert = JOptionPane.showInputDialog("Wie oft sollten die 2 Würfel geworfen werden? (Zahlen: z.B. 1)");
                 if (inputWert != null) { // Überprüfen, ob der Benutzer "Cancel" ausgewählt hat
                     if (!inputWert.isEmpty()) {
                         try {

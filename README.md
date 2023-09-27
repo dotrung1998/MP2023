@@ -52,8 +52,8 @@ Hier ist ein einfaches Beispiel, wie Sie das Java-Projekt verwenden können:
 ### Vorhersage von Aktienrenditen
 -	Bereite die Aktiendaten vor, indem CSV-Datei importiert wird.
 -	Implementiere die lineare Regression und die Berechnung des R-Quadrat-Werts für die Daten.
--	Führen Sie die Korrelationsanalyse für die Daten durch, um die Genauigkeit des Datenzusammenhang sicherzustellen.
--	Falls der Zusammenhang zwischen den 2 Aktiendaten groß genug ist (R-Quadrat > , Korrelation > ), führe die Renditevorhersage aus, um Aktienrenditen vorherzusagen und visualisieren Sie die Ergebnisse mithilfe der GUI.
+-	Führen Sie die Korrelationsanalyse für die Daten durch. Je höher der R-Quadrat-Wert und die Korrelation sind, desto genauer ist die Vorhersage der Rendite.
+-	Führe dann die Renditevorhersage aus, um Aktienrenditen vorherzusagen und visualisieren Sie die Ergebnisse mithilfe der GUI.
   
 ## Autoren
 - Viet Quang Dang

@@ -15,10 +15,10 @@ Die Ergebnisse dieser Analysen werden mithilfe einer grafischen Benutzeroberflä
 
 ## Voraussetzungen
 Um dieses Java-Projekt auszuführen, sind folgende Voraussetzungen erforderlich:
-Java Development Kit (JDK) (Version 1.8.0_201).
-Integrierte Entwicklungsumgebung (IDE) für Java (z.B. IntelliJ IDEA, Eclipse).
-Die Java-Bibliotheken für GUI-Entwicklung (Plotter).
-Grundlegende Kenntnisse in Java-Programmierung.
+- Java Development Kit (JDK) (Version 1.8.0_201).
+- Integrierte Entwicklungsumgebung (IDE) für Java (z.B. IntelliJ IDEA, Eclipse).
+- Die Java-Bibliotheken für GUI-Entwicklung (Plotter).
+- Grundlegende Kenntnisse in Java-Programmierung.
 
 ## Installation
 1.	Klonen oder laden Sie das Projekt von GitHub herunter.

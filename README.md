@@ -21,7 +21,7 @@ Um dieses Java-Projekt auszuführen, sind folgende Voraussetzungen erforderlich:
 - Grundlegende Kenntnisse in Java-Programmierung.
 
 ## Installation
-1.	Klonen oder laden Sie das Projekt von GitHub herunter.
+1.	Klonen oder laden Sie das Projekt von GitHub herunter: https://github.com/dotrung1998/MP2023
 
 2.	Importiere das Projekt in deine bevorzugte Java-Entwicklungsumgebung (z.B. Eclipse, IntelliJ).
 

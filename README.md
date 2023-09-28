@@ -20,10 +20,6 @@ Um dieses Java-Projekt auszuführen, sind folgende Voraussetzungen erforderlich:
 - Die Java-Bibliotheken (Plotter, JUnit).
 - Grundlegende Kenntnisse in Java-Programmierung.
 
-## Installation
-1.	Klonen oder laden Sie das Projekt von GitHub herunter: https://github.com/dotrung1998/MP2023
-2.	Importiere das Projekt in deine bevorzugte Java-Entwicklungsumgebung (z.B. Eclipse, IntelliJ).
-
 ## Verwendung
 1.	Öffne das Projekt in die Java-Entwicklungsumgebung.
 2.	Führe das Hauptklasse „Entry GUI“ aus, um die GUI zu starten.

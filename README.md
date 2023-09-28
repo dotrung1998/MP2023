@@ -2,9 +2,9 @@
 
 ## Beschreibung
 Dieses Java-Projekt bietet eine praktische Einführung in die Grundlagen der linearen Regression und Korrelation sowie die Anwendung von Monte-Carlo-Simulationen. In diesem Projekt werden die folgenden Konzepte behandelt:
-- Lineare Regression: Das Programm stellt nicht nur die lineare Regressionsgleichung und deren grafische Darstellung zur Verfügung, sondern ermittelt auch den R-Quadrat-Wert, einer wichtigen Kennzahl für den Zusammenhang zwischen der linearen Regressionsgeraden und den Daten 
-- Korrelation nach Spearmann und Pearson: die Kennzahlen, die den Zusammenhang zwischen den Daten analysiert. Dies ermöglichte es, die Ergebnisse der Korrelation und Regression zu vergleichen, um die Genauigkeit der Ergebnisse von Kennzahlen sicherzustellen. 
-- Monte-Carlo-Simulation: Eine Technik zur Modellierung und Analyse von Unsicherheit durch wiederholte zufällige Experimente. In diesem Projekt werden zwei Beispiele verwendet: eine einfache Monte-Carlo-Simulation mit Würfeln und eine Vorhersage der Aktienrenditen unter Verwendung einer Kombination aus linearer Regression und Monte-Carlo-Simulation.
+- **Lineare Regression**: Das Programm stellt nicht nur die lineare Regressionsgleichung und deren grafische Darstellung zur Verfügung, sondern ermittelt auch den R-Quadrat-Wert, einer wichtigen Kennzahl für den Zusammenhang zwischen der linearen Regressionsgeraden und den Daten 
+- **Korrelation nach Spearmann und Pearson**: die Kennzahlen, die den Zusammenhang zwischen den Daten analysiert. Dies ermöglichte es, die Ergebnisse der Korrelation und Regression zu vergleichen, um die Genauigkeit der Ergebnisse von Kennzahlen sicherzustellen. 
+- **Monte-Carlo-Simulation**: Eine Technik zur Modellierung und Analyse von Unsicherheit durch wiederholte zufällige Experimente. In diesem Projekt werden zwei Beispiele verwendet: eine einfache Monte-Carlo-Simulation mit Würfeln und eine Vorhersage der Aktienrenditen unter Verwendung einer Kombination aus linearer Regression und Monte-Carlo-Simulation.
 Die Ergebnisse dieser Analysen werden mithilfe einer grafischen Benutzeroberfläche (GUI) anschaulich dargestellt.
 
 ## Features
@@ -22,7 +22,6 @@ Um dieses Java-Projekt auszuführen, sind folgende Voraussetzungen erforderlich:
 
 ## Installation
 1.	Klonen oder laden Sie das Projekt von GitHub herunter: https://github.com/dotrung1998/MP2023
-
 2.	Importiere das Projekt in deine bevorzugte Java-Entwicklungsumgebung (z.B. Eclipse, IntelliJ).
 
 ## Verwendung
